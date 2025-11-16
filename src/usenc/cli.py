@@ -56,6 +56,8 @@ def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
         parser.add_argument(flag, **kwargs)
 
 def add_default_params(parser: argparse.ArgumentParser):
+    """ Setup default parameters for the parser """
+
     parser.add_argument(
         'encoder',
         choices=ENCODERS.keys(),

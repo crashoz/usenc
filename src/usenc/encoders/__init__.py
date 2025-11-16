@@ -3,7 +3,7 @@ import inspect
 from pathlib import Path
 from .base import Encoder
 
-def discover_encoders():
+def discover_encoders() -> list[Encoder]:
     """
     Automatically discover and register all encoder classes in this package
     """

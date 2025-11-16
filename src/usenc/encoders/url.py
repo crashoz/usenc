@@ -1,6 +1,7 @@
 from .base import Encoder
 from urllib.parse import unquote
 
+# These are the default characters in encodeURIComponent
 defaultEncSet = set(" \"#$%&+,/:;<=>?@[\\]^`{|}")
 
 class UrlEncoder(Encoder):

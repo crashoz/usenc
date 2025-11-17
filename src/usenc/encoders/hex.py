@@ -30,7 +30,7 @@ class HexEncoder(Encoder):
         },
         'lowercase': {
             'action': 'store_true',
-            'help': 'Use lowercase hex digits in percent encoding'
+            'help': 'Use lowercase hex digits'
         }
     }
 
@@ -39,7 +39,7 @@ class HexEncoder(Encoder):
         'include': '--prefix 0x --include ghij',
         'exclude': '--exclude abcd',
         'include_all': '--include all',
-        'include_all_except_one': '--include all --exclude ghij',
+        'include_all_except_one': '--include all --exclude g',
         'lowercase': '--lowercase'
     }
 

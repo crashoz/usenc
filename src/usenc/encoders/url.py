@@ -1,8 +1,10 @@
 from .base import Encoder
 from urllib.parse import unquote
 
+from .hex import HexEncoder
+
 # These are the default characters in encodeURIComponent
-defaultEncSet = set(" \"#$%&+,/:;<=>?@[\\]^`{|}")
+default_include = "utf8 \"#$%&+,/:;<=>?@[\\]^`{|}"
 
 class UrlEncoder(Encoder):
     """
@@ -21,7 +23,7 @@ class UrlEncoder(Encoder):
         'include': {
             'type': str,
             'default': '',
-            'help': 'Characters that should be encoded (can be \'all\'))'
+            'help': 'Characters that should be encoded (can contain \'all\' or \'utf8\')'
         },
         'exclude': {
             'type': str,
@@ -34,29 +36,20 @@ class UrlEncoder(Encoder):
         }
     }
 
-    tests = Encoder.tests | {
-        'simple_include': '--include "./"',
-        'simple_exclude': '--exclude "{}"',
+    tests = {
+        'include': '--include abcd',
+        'exclude': '--exclude abcd',
         'include_all': '--include all',
-        'include_all_except_one': '--include all --exclude a'
+        'include_all_except_one': '--include all --exclude abcd',
+        'lowercase': '--lowercase'       
     }
 
     @staticmethod
     def encode(text: str, include: str = '',  exclude: str = '', lowercase: bool = False) -> str:
-        # Custom encode (instead of urllib.parse.quote) to apply include and exclude
-        encSet = (defaultEncSet | set(include)) - set(exclude)
-        hex_format = '%{:02x}' if lowercase else '%{:02X}'
-
-        encString = ""
-        for c in text:
-            if (c in encSet) or (include == 'all' and c not in exclude) or (not c.isascii() and c not in exclude):
-                for x in c.encode('utf-8'):
-                    encString += hex_format.format(x)
-            else:
-                encString += c
-        return encString
+        return HexEncoder.encode(text, prefix="%", include=default_include + include, exclude=exclude, lowercase=lowercase)
 
     @staticmethod
     def decode(text: str, include: str = '',  exclude: str = '', lowercase: bool = False) -> str:
-        return unquote(text)
+        return HexEncoder.decode(text, prefix="%", include=default_include + include, exclude=exclude, lowercase=lowercase)
+
 

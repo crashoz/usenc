@@ -93,7 +93,7 @@ def add_default_params(parser: argparse.ArgumentParser):
 
 
 def main():
-    argparseHeader = { "description":'Encode URL parameters in various formats',
+    argparse_header = { "description":'Encode URL parameters in various formats',
         "formatter_class":argparse.RawDescriptionHelpFormatter,
         "epilog":f"""
 Available encoders:
@@ -107,7 +107,7 @@ Examples:
     }
 
     # First pass: parse just the encoder to know which params to add
-    pre_parser = argparse.ArgumentParser(**argparseHeader, add_help=False)
+    pre_parser = argparse.ArgumentParser(**argparse_header, add_help=False)
     add_default_params(pre_parser)
 
     # Print global help if there is no encoder
@@ -118,7 +118,7 @@ Examples:
     encoder_name = pre_args.encoder
 
     # Second pass: Main parser with encoder-specific params
-    parser = argparse.ArgumentParser(**argparseHeader)
+    parser = argparse.ArgumentParser(**argparse_header)
     add_default_params(parser)
 
     # Add encoder-specific parameters

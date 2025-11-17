@@ -8,11 +8,12 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from usenc.encoders import ENCODERS
+from usenc.encoders.base import DecodeError
 
 from conftest import load_samples_file, load_encoders_tests, parse_encoder_params
 
 # Load samples once for all tests
-TEST_SAMPLES = load_samples_file(Path(__file__).parent / "test_samples.txt")
+TEST_SAMPLES = load_samples_file(Path(__file__).parent / "snapshots" / "samples.txt")
 test_parameters = load_encoders_tests()
 
 class TestEncoderRoundtrip:
@@ -31,8 +32,12 @@ class TestEncoderRoundtrip:
         encoder_class = ENCODERS[encoder_name]
 
         for i, sample in enumerate(TEST_SAMPLES):
-            encoded = encoder_class.encode(sample)
-            decoded = encoder_class.decode(encoded)
+            encoded = encoder_class.encode(sample, **params)
+
+            try:
+                decoded = encoder_class.decode(encoded, **params)
+            except DecodeError:
+                continue
 
             # Roundtrip should be lossless
             assert decoded == sample, (

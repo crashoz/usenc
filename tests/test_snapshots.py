@@ -16,7 +16,7 @@ from usenc import cli
 from conftest import load_samples_file, load_encoders_tests, parse_encoder_params
 
 # Load samples once for all tests
-TEST_SAMPLES = load_samples_file(Path(__file__).parent / "test_samples.txt")
+TEST_SAMPLES = load_samples_file(Path(__file__).parent / "snapshots" / "samples.txt")
 
 # Load parameters tests
 test_parameters = load_encoders_tests()

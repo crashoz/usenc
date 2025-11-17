@@ -10,61 +10,60 @@ An universal string encoder CLI tool and Python library for encoding/decoding st
 - 📦 **Lightweight** - No heavy dependencies
 - 🧪 **Well-tested** - Comprehensive test suite with snapshot testing
 
-## Quick Example
+## Install
 
-=== "CLI"
+usenc is available on PyPi.
 
-    ```bash
-    # Encode a string
-    echo "hello world" | usenc url
-    # Output: hello%20world
+Install the CLI automatically
 
-    # Decode
-    echo "hello%20world" | usenc url -d
-    # Output: hello world
+```bash
+pipx install usenc
+```
 
-    # From files
-    usenc url -i input.txt -o output.txt
-    ```
-
-=== "Python"
-
-    ```python
-    from usenc import encode, decode
-
-    # Encode
-    encoded = encode('hello world', encoder='url')
-    print(encoded)  # hello%20world
-
-    # Decode
-    decoded = decode(encoded, encoder='url')
-    print(decoded)  # hello world
-    ```
-
-## Available Encoders
-
-See the [Encoders](./encoders/url.md) page for detailed documentation.
-
-## Installation
-
-See the [Installation Guide](getting-started/installation.md) for details.
+Or with traditional `pip` (in a virtual env)
 
 ```bash
 pip install usenc
 ```
 
-## Development
+## Quick Example
+
+### CLI
 
 ```bash
-# Install in editable mode
-pip install -e ".[dev]"
+# Encode a string
+echo "hello world" | usenc url
+# Output: hello%20world
 
-# Run tests
-pytest
+# Decode
+echo "hello%20world" | usenc url -d
+# Output: hello world
 
-# Build documentation
-mkdocs serve
+# From files
+usenc url -i input.txt -o output.txt
 ```
+
+### Python
+
+```python
+from usenc import encode, decode
+
+# Encode
+encoded = encode('hello world', encoder='url')
+print(encoded)  # hello%20world
+
+# Decode
+decoded = decode(encoded, encoder='url')
+print(decoded)  # hello world
+```
+
+## Available Encoders
+
+See the [Encoders](./docs/encoders/url.md) page for detailed documentation.
+
+## Development
+
+See the [Contributing Guide](./docs/development/contributing.md) and [How to add an encoder](./docs/development/adding-encoders.md)
 
 ## License
 

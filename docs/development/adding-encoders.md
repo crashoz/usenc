@@ -8,51 +8,81 @@ Adding a new encoder is simple thanks to automatic discovery:
 
 1. Create a new file in `src/usenc/encoders/`
 2. Define an `Encoder` subclass
-3. Done! It's automatically registered
+3. Add docstrings for automatic documentation
+4. Define tests
+5. Done! It's automatically registered
 
 ## Step-by-Step Example
 
-Let's create a base64 encoder:
+Let's create a hex encoder:
 
 ### 1. Create the File
 
-Create `src/usenc/encoders/base64enc.py`:
+Create `src/usenc/encoders/hex.py`:
+
+```python
+from .base import Encoder
+
+class Base64Encoder(Encoder):
+    @staticmethod
+    def encode(text: str, **kwargs) -> str:
+        return base64.b64encode(text.encode('utf-8')).decode('ascii')
+
+    @staticmethod
+    def decode(text: str, **kwargs) -> str:
+        return base64.b64decode(text.encode('ascii')).decode('utf-8')
+```
+
+### 2. Add custom parameters
 
 ```python
 from .base import Encoder
 import base64
 
 class Base64Encoder(Encoder):
-    """Base64 encoding"""
+
+    params = {
+        'separator': {
+            'type': str,
+            'default': '-',
+            'help': 'Character to use as separator'
+        },
+        'uppercase': {
+            'action': 'store_true',
+            'help': 'Convert to uppercase'
+        }
+    }
 
     @staticmethod
     def encode(text: str, **kwargs) -> str:
-        """Encode text to base64"""
         return base64.b64encode(text.encode('utf-8')).decode('ascii')
 
     @staticmethod
     def decode(text: str, **kwargs) -> str:
-        """Decode base64 to text"""
         return base64.b64decode(text.encode('ascii')).decode('utf-8')
 ```
 
-### 2. That's It!
+## Parameter Specification
 
-The encoder is automatically discovered and registered as `base64enc`.
+Each parameter in `params` dict should have:
 
-The naming convention is:
-- Class name: `{Name}Encoder` → registered as `{name}`
-- Example: `Base64Encoder` → `base64`
+- `type`: The parameter type (`str`, `bool`, `int`, etc.)
+- `default`: Default value if not provided
+- `help`: Help text shown in CLI
 
-## Adding Parameters
 
-Encoders can have configurable parameters:
+
+### 3. Adding Documentation
+
+Documentation is generated from docstrings in the Encoder class:
 
 ```python
 from .base import Encoder
 
 class MyEncoder(Encoder):
-    """My encoder with parameters"""
+    """
+
+    """
 
     params = {
         'separator': {
@@ -85,13 +115,14 @@ Parameters are automatically added to the CLI:
 usenc myencoder --separator "_" --uppercase
 ```
 
-## Parameter Specification
+### 2. That's It!
 
-Each parameter in `params` dict should have:
+The encoder is automatically discovered and registered as `base64`.
 
-- `type`: The parameter type (`str`, `bool`, `int`, etc.)
-- `default`: Default value if not provided
-- `help`: Help text shown in CLI
+The naming convention is:
+- Class name: `{Name}Encoder` → registered as `{name}`
+- Example: `Base64Encoder` → `base64`
+
 
 ## Testing Your Encoder
 

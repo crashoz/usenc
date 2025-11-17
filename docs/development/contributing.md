@@ -48,11 +48,29 @@ pytest --cov=usenc
 
 ## Documentation
 
-Update documentation when adding features:
+Add docstrings to code to document your new encoder:
 
-1. Update relevant `.md` files in `docs/`
-2. Add docstrings to code
-3. Update examples if needed
+```python
+class HexEncoder(Encoder):
+    """
+    Short encoder description
+
+    Long encoder description, multiple lines, ...
+
+    Examples:
+    hello world -> 68656C6C6F20776F726C64
+    other -> 6F74686572
+    """
+
+    params = {
+        'param_name': {
+            'type': str,
+            'default': '',
+            'help': 'Description of the param'
+        },
+    }
+    ...
+```
 
 Build and preview documentation locally:
 

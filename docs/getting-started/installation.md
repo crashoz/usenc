@@ -50,7 +50,6 @@ Then open http://127.0.0.1:8000 in your browser.
 ## Requirements
 
 - Python 3.8 or higher
-- No runtime dependencies (pure Python)
 
 ## Verify Installation
 

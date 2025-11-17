@@ -15,11 +15,11 @@ usenc <encoder> [options]
 ### Encode from stdin
 
 ```bash
-echo "hello world" | usenc url
+echo -n "hello world" | usenc url
 ```
 
 Output:
-```
+```bash
 hello%20world
 ```
 
@@ -28,11 +28,11 @@ hello%20world
 Use the `-d` or `--decode` flag:
 
 ```bash
-echo "hello%20world" | usenc url -d
+echo -n "hello%20world" | usenc url -d
 ```
 
 Output:
-```
+```bash
 hello world
 ```
 
@@ -54,7 +54,7 @@ usenc works great with Unix pipes:
 
 ```bash
 # Encode and decode in a pipeline
-echo "test data" | usenc url | usenc url -d
+echo -n "test data" | usenc url | usenc url -d
 
 # Process multiple lines
 cat file.txt | usenc url > encoded.txt
@@ -71,7 +71,7 @@ usenc url --help
 For example, the `url` encoder take `--include` and `--exclude` options
 
 ```bash
-echo "hello-wor.ld" | usenc url --include "-" --exclude "."
+echo -n "hello-wor.ld" | usenc url --include "-" --exclude "."
 # hello%2Dwor.ld
 ```
 

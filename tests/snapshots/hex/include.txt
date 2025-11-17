@@ -1,0 +1,124 @@
+abcdef0x670x680x690x6Aklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+0123456789
+()[]{}<>
++-*/=%^
+.,!?:;'"
+@#$&_~`|\
+
+0x68ello world
+test str0x69n0x67
+s0x69mple-test
+
+pat0x68/to/resource
+query?param=value
+anc0x68or#sect0x69on
+ema0x69l@example.com
+array[0]
+protocol://0x68ost
+
+key=value&anot0x68er=test
+f0x69rst;second;t0x680x69rd
+0x69tem,0x69tem,0x69tem
+name:value
+pat0x68/to/f0x69le.txt
+
+Hello World!
+W0x68at's 0x68appen0x69n0x67?
+100% complete
+$50 pr0x69ce ta0x67
+Amount: $100
+It's a test (w0x69t0x68 parent0x68eses)
+Star * aster0x69sk
+Plus + s0x690x67n
+
+100%
+<0x68tml>
+data&more&data
+f0x69le pat0x68 w0x69t0x68 spaces
+parameter=value&ot0x68er=data
+
+café
+naïve
+señor
+日本語
+🚀
+résumé
+Zür0x69c0x68
+
+/
+//
+///
+?
+&
+=
+%
+%%
+
+
+
+
+
+'; DROP TABLE users--
+<scr0x69pt>alert('xss')</scr0x69pt>
+../../../etc/passwd
+%00null
+${0x6And0x69:ldap://ev0x69l.com}
+
+t0x680x69s-0x69s-a-very-lon0x67-str0x69n0x67-t0x68at-m0x690x670x68t-be-used-to-test-buffer-0x68andl0x69n0x67-and-performance-c0x68aracter0x69st0x69cs-of-t0x68e-encoder
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+user@doma0x69n.com?red0x69rect=0x68ttps://example.com/pat0x68?query=value&ot0x68er=data
+0x68ttps://example.com/searc0x68?q=0x68ello world&lan0x67=en&sort=date
+/ap0x69/v1/users?f0x69lter[name]=Jo0x68n Doe&0x69nclude=posts,comments
+
+0x68ello%20world
+100%25
+caf%C3%A9
+
+l0x69ne1\nl0x69ne2
+col1\tcol2
+
+~t0x69lde
+`backt0x69ck
+^caret
+{curly}
+|p0x69pe|
+
+"double quotes"
+'s0x69n0x67le quotes'
+0x69t's
+"m0x69xed 'quotes' test"
+
+2+2=4
+x^2
+$100
+€50
+£30
+¥1000
+
+/users/123/posts/456
+/searc0x68?q=test+query
+/pat0x68/to/resource.0x68tml?param1=value1&param2=value2
+0x68ttp://example.com:8080/pat0x68
+ftp://f0x69les.example.com/document.pdf
+
+!!!
+???
+...
+---
+___
+===
+
+(parent0x68eses)
+[square brackets]
+{curly braces}
+<an0x67le brackets>
+
+\r\n
+\t\t\t
+\0
+
+%2520
+%253A
+%252F

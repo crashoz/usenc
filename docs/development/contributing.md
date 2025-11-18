@@ -99,12 +99,12 @@ git commit -m "Add my new feature"
 git push origin feature/my-new-feature
 ```
 
-4. Open a Pull Request on GitHub
+4. Open a Pull Request on GitHub targeting the `main` branch
 
 ### PR Checklist
 
 - [ ] Tests pass locally
-- [ ] New tests added for new features
+- [ ] Snapshots for new encoders are correct
 - [ ] Documentation updated
 - [ ] Code follows project style
 - [ ] Commit messages are clear

@@ -37,6 +37,7 @@ class UrlEncoder(Encoder):
     }
 
     tests = {
+        **Encoder.tests,
         'include': '--include abcd',
         'exclude': '--exclude abcd',
         'include_all': '--include all',

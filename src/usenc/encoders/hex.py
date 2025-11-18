@@ -34,7 +34,8 @@ class HexEncoder(Encoder):
         }
     }
 
-    tests = Encoder.tests | {
+    tests = {
+        **Encoder.tests,
         'prefix': '--prefix 0x',
         'include': '--prefix 0x --include ghij',
         'exclude': '--exclude abcd',

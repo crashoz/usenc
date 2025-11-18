@@ -1,9 +1,10 @@
 import importlib
 import inspect
 from pathlib import Path
+from typing import List
 from .base import Encoder
 
-def discover_encoders() -> list[Encoder]:
+def discover_encoders() -> List[Encoder]:
     """
     Automatically discover and register all encoder classes in this package
     """

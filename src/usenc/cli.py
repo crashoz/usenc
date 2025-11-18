@@ -6,12 +6,12 @@ import sys
 import argparse
 from pathlib import Path
 from contextlib import contextmanager
-from typing import TextIO
+from typing import TextIO, Optional
 from .encoders import ENCODERS
 from .core import encode, decode
 
 @contextmanager
-def smart_open(filename: Path | None, mode: str, default_stream: TextIO):
+def smart_open(filename: Optional[Path], mode: str, default_stream: TextIO):
     """
     Context manager that opens a file or uses a default stream (stdin/stdout)
     """
@@ -23,7 +23,7 @@ def smart_open(filename: Path | None, mode: str, default_stream: TextIO):
         with filename.open(mode, encoding='utf-8') as f:
             yield f
 
-def process_encoding(input_file: Path | None, output_file: Path | None, isDecoding: bool, global_params: dict, encoder_name: str, encoder_params: dict):
+def process_encoding(input_file: Optional[Path], output_file: Optional[Path], isDecoding: bool, global_params: dict, encoder_name: str, encoder_params: dict):
     """
     Process encoding from input to output
     """

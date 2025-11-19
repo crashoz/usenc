@@ -25,6 +25,7 @@ pytest
 
 ## Code Style
 
+- Code must be backward compatible with python 3.8
 - Follow PEP 8 style guidelines
 - Use meaningful variable and function names
 - Add docstrings to all public functions and classes

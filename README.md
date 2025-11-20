@@ -59,11 +59,11 @@ print(decoded)  # hello world
 
 ## Available Encoders
 
-See the [Encoders](./docs/encoders/url.md) page for detailed documentation.
+See the [Encoders](https://crashoz.github.io/usenc/encoders/url/) page for detailed documentation.
 
 ## Development
 
-See the [Contributing Guide](./docs/development/contributing.md) and [How to add an encoder](./docs/development/adding-encoders.md)
+See the [Contributing Guide](https://crashoz.github.io/usenc/development/contributing/) and [How to add an encoder](https://crashoz.github.io/usenc/development/adding-encoders/)
 
 ## License
 

@@ -1,6 +1,6 @@
 # Universal String Encoder
 
-An universal string encoder CLI tool and Python library for encoding/decoding strings in various formats.
+A universal string encoder CLI tool and Python library for encoding/decoding strings in various formats.
 
 ## Features
 

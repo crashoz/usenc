@@ -33,8 +33,8 @@ def process_encoding(input_file: Optional[Path], output_file: Optional[Path], is
     with smart_open(input_file, 'r', sys.stdin) as infile, \
          smart_open(output_file, 'w', sys.stdout) as outfile:
         for line in infile:
-            encoded = method(line, encoder_name, **global_params, **encoder_params)
-            outfile.write(encoded)
+            encoded = method(line.rstrip(), encoder_name, **global_params, **encoder_params)
+            outfile.write(encoded + '\n')
 
 def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
     """Add encoder-specific parameters to argument parser"""
@@ -82,15 +82,14 @@ def add_default_params(parser: argparse.ArgumentParser):
         help='Output file (writes to stdout if not provided)'
     )
 
-    # group = parser.add_argument_group('global')
+    group = parser.add_argument_group('global')
 
-    # group.add_argument(
-    #     '--include',
-    #     type=str,
-    #     help='Force these characters to be encoded',
-    #     default=''
-    # )
-
+    group.add_argument(
+        '--charset',
+        type=str,
+        default='utf8',
+        help='Charset used to represent data (ascii, utf8, latin1, ...)'
+    )
 
 def main():
     argparse_header = { "description":'Encode URL parameters in various formats',
@@ -127,7 +126,7 @@ Examples:
 
     args = parser.parse_args()
     global_params = {}
-    # global_params['include'] = args.include
+    global_params['charset'] = args.charset
 
     # Extract encoder parameters
     encoder = ENCODERS[args.encoder]

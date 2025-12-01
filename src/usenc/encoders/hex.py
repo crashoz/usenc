@@ -78,7 +78,7 @@ class HexEncoder(Encoder):
     default_character_class = '^A-Za-z0-9\\-_.!~*\'()'
 
     @classmethod
-    def encode(cls, text: str, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, charset: str = '') -> str:
+    def encode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> str:
         if regex == '':
             safe_include = transform_keywords(escape_for_char_class(include))
             safe_exclude = transform_keywords(escape_for_char_class(exclude))
@@ -99,20 +99,20 @@ class HexEncoder(Encoder):
 
         def replace(match):
             enc_string = ""
-            for x in match.group(0).encode(charset):
+            for x in match.group(0).encode(output_charset):
                 enc_string += hex_format.format(x)
             return enc_string
 
-        return encRegex.sub(replace, text)
+        return encRegex.sub(replace, text.decode(input_charset)).encode(output_charset)
 
     @classmethod
-    def decode(cls, text: str, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, charset: str = '') -> str:
+    def decode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> str:
         def decode_hex_str(match):
             hex_prefixed_str = match.group(0)
             hex_str = ''.join([hex_prefixed_str[i:i+2] for i in range(len(prefix), len(hex_prefixed_str), len(prefix) + 2)])
-            return bytes.fromhex(hex_str).decode(charset)
+            return bytes.fromhex(hex_str).decode(input_charset)
 
         try:
-            return re.sub(f'({prefix}([a-fA-F0-9]{{2}}))+', decode_hex_str, text)
+            return re.sub(f'({prefix}([a-fA-F0-9]{{2}}))+', decode_hex_str, text.decode(input_charset)).encode(output_charset)
         except UnicodeDecodeError as e:
             raise DecodeError(f'{e.reason}: {e.object}')

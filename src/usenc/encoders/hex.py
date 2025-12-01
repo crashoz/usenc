@@ -1,4 +1,5 @@
-from .base import Encoder, DecodeError
+from .base import Encoder, EncodeError, DecodeError
+from ..utils import escape_for_char_class, transform_keywords
 import re
 
 class HexEncoder(Encoder):
@@ -20,13 +21,18 @@ class HexEncoder(Encoder):
         },
         'include': {
             'type': str,
-            'default': 'all',
-            'help': 'Characters that should be encoded (can contain \'all\' or \'utf8\')'
+            'default': '',
+            'help': 'Characters that should be encoded (can contain \'all\', \'utf8\' or \'ascii\')'
         },
         'exclude': {
             'type': str,
             'default': '',
             'help': 'Characters that should not be encoded'
+        },
+        'regex': {
+            'type': str,
+            'default': '',
+            'help': 'Regex override for characters that should be encoded'
         },
         'lowercase': {
             'action': 'store_true',
@@ -35,47 +41,78 @@ class HexEncoder(Encoder):
     }
 
     tests = {
-        **Encoder.tests,
-        'prefix': '--prefix 0x',
-        'include': '--prefix 0x --include ghij',
-        'exclude': '--exclude abcd',
-        'include_all': '--include all',
-        'include_all_except_one': '--include all --exclude g',
-        'lowercase': '--lowercase'
+        'base': {
+            'params': '',
+            'roundtrip': False
+        },
+        'prefix': {
+            'params': '--prefix 0x',
+            'roundtrip': True
+        },
+        'include': {
+            'params': '--prefix 0x --include ghij',
+            'roundtrip': True
+        },
+        'exclude': {
+            'params': '--exclude abcd',
+            'roundtrip': False
+        },
+        'include_all': {
+            'params': '--include all',
+            'roundtrip': True
+        },
+        'include_all_except_one': {
+            'params': '--include all --exclude g',
+            'roundtrip': False
+        },
+        'regex': {
+            'params': '--regex "a-z"',
+            'roundtrip': False
+        },
+        'lowercase': {
+            'params': '--lowercase',
+            'roundtrip': False
+        }
     }
 
-    @staticmethod
-    def encode(text: str, prefix: str = '', include: str = '', exclude: str = '', lowercase: bool = False) -> str:
-        include_utf8 = 'utf8' in include
-        include = include.replace('utf8', '')
-        include_all = 'all' in include
-        include = include.replace('all', '')
+    default_character_class = '^A-Za-z0-9\\-_.!~*\'()'
 
-        include_set = set(include)
-        exclude_set = set(exclude)
+    @classmethod
+    def encode(cls, text: str, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, charset: str = '') -> str:
+        if regex == '':
+            safe_include = transform_keywords(escape_for_char_class(include))
+            safe_exclude = transform_keywords(escape_for_char_class(exclude))
+
+            regex = rf'[{cls.default_character_class}]'
+            if (safe_include != ''):
+                regex = rf'({regex}|[{safe_include}])'
+            if (safe_exclude != ''):
+                regex =  rf'(?![{safe_exclude}]){regex}'
+            regex = rf'(?:{regex})+'
+
+        try:
+            encRegex = re.compile(regex)
+        except re.error as e:
+            raise EncodeError(e.msg)
+
         hex_format = prefix + ('{:02x}' if lowercase else '{:02X}')
 
-        enc_string = ""
-        for c in text:
-            if c in exclude_set:
-                enc_string += c
-            else:
-                if c in include_set or include_all or (include_utf8 and not c.isascii()):
-                    for x in c.encode('utf-8'):
-                        enc_string += hex_format.format(x)
-                else:
-                    enc_string += c
+        def replace(match):
+            enc_string = ""
+            for x in match.group(0).encode(charset):
+                enc_string += hex_format.format(x)
+            return enc_string
 
-        return enc_string
+        return encRegex.sub(replace, text)
 
-    @staticmethod
-    def decode(text: str, prefix: str = '', include: str = '', exclude: str = '', lowercase: bool = False) -> str:
+    @classmethod
+    def decode(cls, text: str, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, charset: str = '') -> str:
         def decode_hex_str(match):
             hex_prefixed_str = match.group(0)
             hex_str = ''.join([hex_prefixed_str[i:i+2] for i in range(len(prefix), len(hex_prefixed_str), len(prefix) + 2)])
-            return bytes.fromhex(hex_str).decode('utf-8')
+            return bytes.fromhex(hex_str).decode(charset)
 
         try:
             return re.sub(f'({prefix}([a-fA-F0-9]{{2}}))+', decode_hex_str, text)
-        except UnicodeDecodeError:
-            raise DecodeError('hex', text)
+        except UnicodeDecodeError as e:
+            raise DecodeError(f'{e.reason}: {e.object}')

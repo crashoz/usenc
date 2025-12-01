@@ -16,7 +16,7 @@ Prefix string to each encoded character
 
 #### --include
 <div class="option-desc">
-Characters that should be encoded (can be 'all'))
+Characters that should be encoded (can contain 'all' or 'utf8')
 </div>
 
 #### --exclude
@@ -26,7 +26,7 @@ Characters that should not be encoded
 
 #### --lowercase
 <div class="option-desc">
-Use lowercase hex digits in percent encoding
+Use lowercase hex digits
 </div>
 
 ### EXAMPLES

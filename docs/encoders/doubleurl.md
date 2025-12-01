@@ -12,7 +12,7 @@ It is the same as doing `echo hello | usenc url | usenc url`
 
 #### --include
 <div class="option-desc">
-Characters that should be encoded (can be 'all'))
+Characters that should be encoded (can contain 'all' or 'utf8')
 </div>
 
 #### --exclude

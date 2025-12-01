@@ -65,10 +65,11 @@ Zürich
 %
 %%
 
-# Empty and whitespace
-
-
-
+# Whitespaces
+# space
+ 
+# tab
+    
 
 # Common injection test strings
 '; DROP TABLE users--

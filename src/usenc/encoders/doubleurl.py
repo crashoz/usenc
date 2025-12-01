@@ -17,9 +17,9 @@ class DoubleUrlEncoder(Encoder):
     tests = UrlEncoder.tests
     
     @staticmethod
-    def encode(text: str, include: str = '',  exclude: str = '', **kwargs) -> str:
-        return UrlEncoder.encode(UrlEncoder.encode(text, include, exclude, **kwargs), include, exclude, **kwargs)
+    def encode(text: str, **kwargs) -> str:
+        return UrlEncoder.encode(UrlEncoder.encode(text, **kwargs), **kwargs)
 
     @staticmethod
-    def decode(text: str, include: str = '',  exclude: str = '', **kwargs) -> str:
-        return UrlEncoder.decode(UrlEncoder.decode(text, include, exclude, **kwargs), include, exclude, **kwargs)
+    def decode(text: str, **kwargs) -> str:
+        return UrlEncoder.decode(UrlEncoder.decode(text, **kwargs), **kwargs)

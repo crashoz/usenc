@@ -1,10 +1,5 @@
 from .base import Encoder
-from urllib.parse import unquote
-
 from .hex import HexEncoder
-
-# These are the default characters in encodeURIComponent
-default_include = "utf8 \"#$%&+,/:;<=>?@[\\]^`{|}"
 
 class UrlEncoder(Encoder):
     """
@@ -30,6 +25,11 @@ class UrlEncoder(Encoder):
             'default': '',
             'help': 'Characters that should not be encoded'
         },
+        'regex': {
+            'type': str,
+            'default': '',
+            'help': 'Regex that matches characters that should be encoded'
+        },
         'lowercase': {
             'action': 'store_true',
             'help': 'Use lowercase hex digits in percent encoding'
@@ -37,20 +37,42 @@ class UrlEncoder(Encoder):
     }
 
     tests = {
-        **Encoder.tests,
-        'include': '--include abcd',
-        'exclude': '--exclude abcd',
-        'include_all': '--include all',
-        'include_all_except_one': '--include all --exclude abcd',
-        'lowercase': '--lowercase'       
+        'base': {
+            'params': '',
+            'roundtrip': True
+        },
+        'include': {
+            'params': '--include abcd',
+            'roundtrip': True
+        },
+        'exclude': {
+            'params': '--exclude abcd',
+            'roundtrip': True
+        },
+        'include_all': {
+            'params': '--include all',
+            'roundtrip': True
+        },
+        'include_all_except_one': {
+            'params': '--include all --exclude g',
+            'roundtrip': True
+        },
+        'regex': {
+            'params': '--regex "a-z"',
+            'roundtrip': False
+        },
+        'lowercase': {
+            'params': '--lowercase',
+            'roundtrip': True
+        }       
     }
 
-    @staticmethod
-    def encode(text: str, include: str = '',  exclude: str = '', lowercase: bool = False) -> str:
-        return HexEncoder.encode(text, prefix="%", include=default_include + include, exclude=exclude, lowercase=lowercase)
+    @classmethod
+    def encode(cls, text: str, **kwargs) -> str:
+        return HexEncoder.encode(text, prefix="%", **kwargs)
 
-    @staticmethod
-    def decode(text: str, include: str = '',  exclude: str = '', lowercase: bool = False) -> str:
-        return HexEncoder.decode(text, prefix="%", include=default_include + include, exclude=exclude, lowercase=lowercase)
+    @classmethod
+    def decode(cls, text: str, **kwargs) -> str:
+        return HexEncoder.decode(text, prefix="%", **kwargs)
 
 

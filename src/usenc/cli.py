@@ -20,7 +20,7 @@ def smart_open(filename: Optional[Path], mode: str, default_stream: TextIO):
         yield default_stream
     else:
         # Open and close the file
-        with filename.open(mode, encoding='utf-8') as f:
+        with filename.open(mode) as f:
             yield f
 
 def process_encoding(input_file: Optional[Path], output_file: Optional[Path], isDecoding: bool, global_params: dict, encoder_name: str, encoder_params: dict):
@@ -30,11 +30,11 @@ def process_encoding(input_file: Optional[Path], output_file: Optional[Path], is
 
     method = decode if isDecoding else encode
 
-    with smart_open(input_file, 'r', sys.stdin) as infile, \
-         smart_open(output_file, 'w', sys.stdout) as outfile:
+    with smart_open(input_file, 'rb', sys.stdin.buffer) as infile, \
+         smart_open(output_file, 'wb', sys.stdout.buffer) as outfile:
         for line in infile:
             encoded = method(line.rstrip(), encoder_name, **global_params, **encoder_params)
-            outfile.write(encoded + '\n')
+            outfile.write(encoded + b'\n')
 
 def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
     """Add encoder-specific parameters to argument parser"""
@@ -85,10 +85,17 @@ def add_default_params(parser: argparse.ArgumentParser):
     group = parser.add_argument_group('global')
 
     group.add_argument(
-        '--charset',
+        '--input-charset',
         type=str,
         default='utf8',
-        help='Charset used to represent data (ascii, utf8, latin1, ...)'
+        help='Charset used to represent input data (ascii, utf8, latin1, ...)'
+    )
+
+    group.add_argument(
+        '--output-charset',
+        type=str,
+        default='utf8',
+        help='Charset used to represent output data (ascii, utf8, latin1, ...)'
     )
 
 def main():
@@ -126,7 +133,10 @@ Examples:
 
     args = parser.parse_args()
     global_params = {}
-    global_params['charset'] = args.charset
+    global_params['input_charset'] = args.input_charset
+    global_params['output_charset'] = args.output_charset
+
+    print(global_params)
 
     # Extract encoder parameters
     encoder = ENCODERS[args.encoder]

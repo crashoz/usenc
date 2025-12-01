@@ -18,11 +18,13 @@ def load_samples_file(path):
 
     return samples
 
-def load_encoders_tests():
+def load_encoders_tests(onlyRoundtrip: bool):
     test_parameters = []
     for encoder_name, encoder in ENCODERS.items():
-        for test_name, params in encoder.tests.items():
-            test_parameters.append((encoder_name, test_name, params))
+        for test_name, test_params in encoder.tests.items():
+            if onlyRoundtrip and not test_params['roundtrip']:
+                continue
+            test_parameters.append((encoder_name, test_name, test_params['params']))
     return test_parameters
 
 def parse_encoder_params(encoder_name, params):

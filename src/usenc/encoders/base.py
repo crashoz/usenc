@@ -1,19 +1,10 @@
 class EncodeError(Exception):
     """Exception raised when encoding fails."""
-    
-    def __init__(self, string: str):
-        self.string = string
-        message = f"Failed to encode: {string!r}"
-        super().__init__(message)
-
+    pass
 
 class DecodeError(Exception):
     """Exception raised when decoding fails."""
-    
-    def __init__(self, string: str):
-        self.string = string
-        message = f"Failed to decode: {string!r}"
-        super().__init__(message)
+    pass
 
 class Encoder:
     """Base class for encoders - makes adding new encoders simple"""

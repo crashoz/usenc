@@ -29,5 +29,5 @@ class TestEncoderBasics:
     def test_encoder_empty_string(self, encoder_name: str):
         """Test that encoders handle empty strings correctly."""
         encoder_class = ENCODERS[encoder_name]
-        result = encoder_class.encode("")
-        assert result == ""
+        result = encoder_class.encode(b"")
+        assert result == b""

@@ -23,7 +23,7 @@ def smart_open(filename: Optional[Path], mode: str, default_stream: TextIO):
         with filename.open(mode) as f:
             yield f
 
-def process_encoding(input_file: Optional[Path], output_file: Optional[Path], isDecoding: bool, global_params: dict, encoder_name: str, encoder_params: dict):
+def process_encoding(input_file: Optional[Path], output_file: Optional[Path], isDecoding: bool, isBulk: bool, global_params: dict, encoder_name: str, encoder_params: dict):
     """
     Process encoding from input to output
     """
@@ -32,9 +32,13 @@ def process_encoding(input_file: Optional[Path], output_file: Optional[Path], is
 
     with smart_open(input_file, 'rb', sys.stdin.buffer) as infile, \
          smart_open(output_file, 'wb', sys.stdout.buffer) as outfile:
-        for line in infile:
-            encoded = method(line.rstrip(), encoder_name, **global_params, **encoder_params)
-            outfile.write(encoded + b'\n')
+        if isBulk:
+            encoded = method(infile.read(), encoder_name, **global_params, **encoder_params)
+            outfile.write(encoded)
+        else:
+            for line in infile:
+                encoded = method(line.rstrip(), encoder_name, **global_params, **encoder_params)
+                outfile.write(encoded + b'\n')
 
 def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
     """Add encoder-specific parameters to argument parser"""
@@ -80,6 +84,12 @@ def add_default_params(parser: argparse.ArgumentParser):
         '-o', '--output',
         type=Path,
         help='Output file (writes to stdout if not provided)'
+    )
+
+    parser.add_argument(
+        '-b', '--bulk',
+        action='store_true',
+        help='Process input as a whole instead of line by line'
     )
 
     group = parser.add_argument_group('global')
@@ -136,8 +146,6 @@ Examples:
     global_params['input_charset'] = args.input_charset
     global_params['output_charset'] = args.output_charset
 
-    print(global_params)
-
     # Extract encoder parameters
     encoder = ENCODERS[args.encoder]
     encoder_params = {}
@@ -148,7 +156,7 @@ Examples:
                 encoder_params[param_name] = param_value
 
     try:
-        process_encoding(args.input, args.output, args.decode, global_params, args.encoder, encoder_params)
+        process_encoding(args.input, args.output, args.decode, args.bulk, global_params, args.encoder, encoder_params)
     
     except KeyboardInterrupt:
         sys.exit(130)

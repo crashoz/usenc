@@ -9,8 +9,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from usenc import encode, decode
 
-text = "<hello world>"
-encoded = "%3Chello%20world%3E"
+text = b"<hello world>"
+encoded = b"%3Chello%20world%3E"
 
 class TestCoreAPI:
     """Basic tests for the core API"""
@@ -32,7 +32,7 @@ class TestCoreAPI:
             decode(encoded, "unknown")
 
     def test_encode_params(self):
-        assert encode("<hello world>", "url", include="o") == "%3Chell%6F%20w%6Frld%3E"
+        assert encode(b"<hello world>", "url", include="o") == b"%3Chell%6F%20w%6Frld%3E"
 
     def test_decode_params(self):
-        assert decode("%3Chell%6F%20w%6Frld%3E", "url", include="o") == "<hello world>"
+        assert decode(b"%3Chell%6F%20w%6Frld%3E", "url", include="o") == b"<hello world>"

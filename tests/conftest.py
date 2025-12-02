@@ -6,12 +6,12 @@ def load_samples_file(path):
     """Load test samples, filtering out comments and empty lines."""
     samples = []
 
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(path, 'rb') as f:
         for line in f:
             # Strip trailing newline but preserve the content
-            line = line.rstrip('\n')
+            line = line.rstrip(b'\n')
             # Skip comment lines (starting with #)
-            if line.startswith('#'):
+            if line.startswith(b'#'):
                 continue
             # Include all lines, even empty ones (they're valid test cases)
             samples.append(line)

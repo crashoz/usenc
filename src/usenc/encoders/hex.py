@@ -93,7 +93,7 @@ class HexEncoder(Encoder):
         try:
             encRegex = re.compile(regex)
         except re.error as e:
-            raise EncodeError(e.msg)
+            raise EncodeError(f'regex error: {e}') from e
 
         hex_format = prefix + ('{:02x}' if lowercase else '{:02X}')
 
@@ -103,7 +103,12 @@ class HexEncoder(Encoder):
                 enc_string += hex_format.format(x)
             return enc_string
 
-        return encRegex.sub(replace, text.decode(input_charset)).encode(output_charset)
+        try:
+            return encRegex.sub(replace, text.decode(input_charset)).encode(output_charset)
+        except UnicodeDecodeError as e:
+            raise EncodeError(f'input-charset \'{input_charset}\' decoding failed: {e}') from e
+        except UnicodeEncodeError as e:
+            raise EncodeError(f'output-charset \'{output_charset}\' encoding failed: {e}') from e
 
     @classmethod
     def decode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> str:
@@ -115,4 +120,6 @@ class HexEncoder(Encoder):
         try:
             return re.sub(f'({prefix}([a-fA-F0-9]{{2}}))+', decode_hex_str, text.decode(input_charset)).encode(output_charset)
         except UnicodeDecodeError as e:
-            raise DecodeError(f'{e.reason}: {e.object}')
+            raise DecodeError(f'input-charset \'{input_charset}\' decoding failed: {e}') from e
+        except UnicodeEncodeError as e:
+            raise DecodeError(f'output-charset \'{output_charset}\' encoding failed: {e}') from e

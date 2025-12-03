@@ -117,6 +117,20 @@ class TestProcessEncoding:
         assert "line%202" in output_lines[1]
         assert "line%203" in output_lines[2]
 
+    def test_process_encoding_bulk(self, tmp_path):
+        """Test encoding a whole file in bulk"""
+        input_file = tmp_path / "input.txt"
+        output_file = tmp_path / "output.txt"
+
+        input_file.write_bytes(b"line 1\nline 2\nline 3\n")
+
+        process_encoding(input_file, output_file, False, True, {}, 'url', {})
+
+        output_lines = output_file.read_bytes().decode('utf-8').splitlines()
+        print(output_lines)
+        assert len(output_lines) == 1
+        assert "line%201%0Aline%202%0Aline%203%0A" in output_lines[0]
+
     def test_process_encoding_empty_file(self, tmp_path):
         """Test encoding an empty file"""
         input_file = tmp_path / "input.txt"

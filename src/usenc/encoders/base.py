@@ -11,7 +11,10 @@ class Encoder:
 
     params = {}
     tests = {
-        'base': ''
+        'base': {
+            'params': '',
+            'roundtrip': False
+        }
     }
     
     @staticmethod

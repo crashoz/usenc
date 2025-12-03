@@ -47,9 +47,9 @@ class TestEncoderSnapshots:
         # Create snapshot if it doesn't exist
         if not snapshot_file.exists():
             snapshot_dir.mkdir(exist_ok=True)
-            with open(snapshot_file, 'w', encoding='utf-8') as f:
+            with open(snapshot_file, 'wb') as f:
                 for encoded in encoded_samples:
-                    f.write(encoded + '\n')
+                    f.write(encoded + b'\n')
             pytest.skip(f"Generated new snapshot for {encoder_name}")
 
         # Load expected snapshot

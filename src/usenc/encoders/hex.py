@@ -1,6 +1,7 @@
 from .base import Encoder, EncodeError, DecodeError
 from ..utils import escape_for_char_class, transform_keywords
 import re
+import pytest
 
 class HexEncoder(Encoder):
     """
@@ -66,7 +67,7 @@ class HexEncoder(Encoder):
             'roundtrip': False
         },
         'regex': {
-            'params': '--regex "a-z"',
+            'params': '--regex [a-z]+',
             'roundtrip': False
         },
         'lowercase': {
@@ -123,3 +124,21 @@ class HexEncoder(Encoder):
             raise DecodeError(f'input-charset \'{input_charset}\' decoding failed: {e}') from e
         except UnicodeEncodeError as e:
             raise DecodeError(f'output-charset \'{output_charset}\' encoding failed: {e}') from e
+
+
+def test_advanced_encode():
+    with pytest.raises(EncodeError, match="regex error: unterminated character set at position 0"):
+        HexEncoder.encode(b'hello world', regex='[a-z')
+
+    with pytest.raises(EncodeError, match="input-charset 'utf8' decoding failed"):
+        HexEncoder.encode(b'h\xE9llo')
+
+    with pytest.raises(EncodeError, match="output-charset 'ascii' encoding failed"):
+        HexEncoder.encode(b'h\xC3\xA9llo', output_charset='ascii')
+
+def test_advanced_decode():
+    with pytest.raises(DecodeError, match="input-charset 'utf8' decoding failed"):
+        HexEncoder.decode(b'hE9llo')
+
+    with pytest.raises(DecodeError, match="output-charset 'ascii' encoding failed"):
+        HexEncoder.decode(b'h\xC3\xA9llo', output_charset='ascii')

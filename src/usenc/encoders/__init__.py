@@ -2,7 +2,7 @@ import importlib
 import inspect
 from pathlib import Path
 from typing import List
-from .base import Encoder
+from .encoder import Encoder
 
 def discover_encoders() -> List[Encoder]:
     """
@@ -13,7 +13,7 @@ def discover_encoders() -> List[Encoder]:
     
     # Find all Python files except __init__.py and base.py
     for filepath in encoders_dir.glob("*.py"):
-        if filepath.name in ("__init__.py", "base.py"):
+        if filepath.name in ("__init__.py", "encoder.py"):
             continue
         
         # Import the module

@@ -1,4 +1,4 @@
-from .base import Encoder
+from .encoder import Encoder
 from .url import UrlEncoder
 
 class DoubleUrlEncoder(Encoder):
@@ -17,9 +17,9 @@ class DoubleUrlEncoder(Encoder):
     tests = UrlEncoder.tests
     
     @staticmethod
-    def encode(text: str, **kwargs) -> str:
+    def encode(text: str, **kwargs) -> bytes:
         return UrlEncoder.encode(UrlEncoder.encode(text, **kwargs), **kwargs)
 
     @staticmethod
-    def decode(text: str, **kwargs) -> str:
+    def decode(text: str, **kwargs) -> bytes:
         return UrlEncoder.decode(UrlEncoder.decode(text, **kwargs), **kwargs)

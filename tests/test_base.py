@@ -7,7 +7,7 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-from usenc.encoders.base import Encoder, EncodeError, DecodeError
+from usenc.encoders.encoder import Encoder, EncodeError, DecodeError
 
 class TestBaseEncoder:
     """Tests for the Base encoder class"""

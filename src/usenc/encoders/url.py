@@ -1,4 +1,4 @@
-from .base import Encoder
+from .encoder import Encoder
 from .hex import HexEncoder
 
 class UrlEncoder(Encoder):
@@ -23,11 +23,11 @@ class UrlEncoder(Encoder):
     }
 
     @classmethod
-    def encode(cls, text: str, **kwargs) -> str:
+    def encode(cls, text: bytes, **kwargs) -> bytes:
         return HexEncoder.encode(text, prefix="%", **kwargs)
 
     @classmethod
-    def decode(cls, text: str, **kwargs) -> str:
+    def decode(cls, text: bytes, **kwargs) -> bytes:
         return HexEncoder.decode(text, prefix="%", **kwargs)
 
 

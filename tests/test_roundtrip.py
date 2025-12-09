@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from usenc.encoders import ENCODERS
-from usenc.encoders.base import DecodeError
+from usenc.encoders.encoder import DecodeError
 
 from conftest import load_samples_file, load_encoders_tests, parse_encoder_params
 

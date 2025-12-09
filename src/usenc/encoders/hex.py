@@ -1,4 +1,4 @@
-from .base import Encoder, EncodeError, DecodeError
+from .encoder import Encoder, EncodeError, DecodeError
 from ..utils import escape_for_char_class, transform_keywords
 import re
 import pytest
@@ -79,7 +79,7 @@ class HexEncoder(Encoder):
     default_character_class = '^A-Za-z0-9\\-_.!~*\'()'
 
     @classmethod
-    def encode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> str:
+    def encode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> bytes:
         if regex == '':
             safe_include = transform_keywords(escape_for_char_class(include))
             safe_exclude = transform_keywords(escape_for_char_class(exclude))
@@ -112,7 +112,7 @@ class HexEncoder(Encoder):
             raise EncodeError(f'output-charset \'{output_charset}\' encoding failed: {e}') from e
 
     @classmethod
-    def decode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> str:
+    def decode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> bytes:
         def decode_hex_str(match):
             hex_prefixed_str = match.group(0)
             hex_str = ''.join([hex_prefixed_str[i:i+2] for i in range(len(prefix), len(hex_prefixed_str), len(prefix) + 2)])

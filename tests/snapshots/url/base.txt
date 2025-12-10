@@ -55,9 +55,8 @@ Z%C3%BCrich
 %25
 %25%25
 
-
-
-
+%20
+%20%20%20%20
 
 '%3B%20DROP%20TABLE%20users--
 %3Cscript%3Ealert('xss')%3C%2Fscript%3E

@@ -125,18 +125,19 @@ class HexEncoder(Encoder):
         except UnicodeEncodeError as e:
             raise DecodeError(f'output-charset \'{output_charset}\' encoding failed: {e}') from e
 
-
-def test_advanced_encode():
+def test_invalid_regex():
     with pytest.raises(EncodeError, match="regex error: unterminated character set at position 0"):
         HexEncoder.encode(b'hello world', regex='[a-z')
 
+
+def test_encode_invalid_character():
     with pytest.raises(EncodeError, match="input-charset 'utf8' decoding failed"):
         HexEncoder.encode(b'h\xE9llo')
 
     with pytest.raises(EncodeError, match="output-charset 'ascii' encoding failed"):
         HexEncoder.encode(b'h\xC3\xA9llo', output_charset='ascii')
 
-def test_advanced_decode():
+def test_decode_invalid_character():
     with pytest.raises(DecodeError, match="input-charset 'utf8' decoding failed"):
         HexEncoder.decode(b'hE9llo')
 

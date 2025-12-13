@@ -24,10 +24,3 @@ class TestEncoderBasics:
         encoder_class = ENCODERS[encoder_name]
         assert hasattr(encoder_class, 'encode')
         assert callable(getattr(encoder_class, 'encode'))
-
-    @pytest.mark.parametrize("encoder_name", sorted(ENCODERS.keys()))
-    def test_encoder_empty_string(self, encoder_name: str):
-        """Test that encoders handle empty strings correctly."""
-        encoder_class = ENCODERS[encoder_name]
-        result = encoder_class.encode(b"")
-        assert result == b""

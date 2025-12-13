@@ -61,7 +61,20 @@ print(decoded)  # hello world
 
 ## Available Encoders
 
-See the [Encoders](https://crashoz.github.io/usenc/encoders/url/) page for detailed documentation.
+- **[base16](https://crashoz.github.io/usenc/encoders/base16/)** - Standard Base16 encoding (RFC 4648), also known as hexadecimal encoding
+- **[base2n](https://crashoz.github.io/usenc/encoders/base2n/)** - Base encoder for power-of-two base encodings (base64, base32, base16, etc.)
+- **[base32](https://crashoz.github.io/usenc/encoders/base32/)** - Standard Base32 encoding (RFC 4648)
+- **[base64](https://crashoz.github.io/usenc/encoders/base64/)** - Standard Base64 encoding (RFC 4648)
+- **[cstring](https://crashoz.github.io/usenc/encoders/cstring/)** - C string escaping
+- **[doubleurl](https://crashoz.github.io/usenc/encoders/doubleurl/)** - Double URL encoding (percent encoding)
+- **[hash](https://crashoz.github.io/usenc/encoders/hash/)** - Base hash encoder using hashlib
+- **[hex](https://crashoz.github.io/usenc/encoders/hex/)** - Hexadecimal string encoding
+- **[md5](https://crashoz.github.io/usenc/encoders/md5/)** - MD5 hash encoder
+- **[sha1](https://crashoz.github.io/usenc/encoders/sha1/)** - SHA-1 hash encoder
+- **[sha256](https://crashoz.github.io/usenc/encoders/sha256/)** - SHA-256 hash encoder
+- **[url](https://crashoz.github.io/usenc/encoders/url/)** - Standard URL encoding (percent encoding)
+
+
 
 ## Development
 

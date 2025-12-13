@@ -4,7 +4,7 @@
 
 ### DESCRIPTION
 
-Encodes each character with its hex representation
+Encodes each character with its hex representation and an optional prefix
 
 ### OPTIONS
 
@@ -16,12 +16,17 @@ Prefix string to each encoded character
 
 #### --include
 <div class="option-desc">
-Characters that should be encoded (can contain 'all' or 'utf8')
+Characters that should be encoded (can contain 'all', 'utf8' or 'ascii')
 </div>
 
 #### --exclude
 <div class="option-desc">
 Characters that should not be encoded
+</div>
+
+#### --regex
+<div class="option-desc">
+Regex override for characters that should be encoded
 </div>
 
 #### --lowercase

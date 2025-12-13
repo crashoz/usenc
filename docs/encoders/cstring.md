@@ -1,11 +1,11 @@
 ### NAME
 
-`doubleurl` - Double URL encoding (percent encoding)
+`cstring` - C string escaping
 
 ### DESCRIPTION
 
-Apply the URL Encoder twice on the input string.
-It is the same as doing `echo hello | usenc url | usenc url`
+Encodes special characters and utf8 characters with a \x
+prefixed hex value.
 
 ### OPTIONS
 
@@ -34,5 +34,5 @@ Use lowercase hex digits
 
 Sample  |   Encoded
 --- | ---
-`hello world` | `hello%2520world`
-`url$param+` | `url%2524param%252B`
+`hello world` | `hello\x20world`
+`url$param+` | `url\x24param\x2B`

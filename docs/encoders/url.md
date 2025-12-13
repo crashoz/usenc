@@ -5,7 +5,7 @@
 ### DESCRIPTION
 
 Encodes special characters and utf8 characters with a percent
-prefixed hex ascii value. Produces the same encoding as
+prefixed hex value. Produces the same encoding as
 javascript `encodeURIComponent` by default.
 
 ### OPTIONS
@@ -13,7 +13,7 @@ javascript `encodeURIComponent` by default.
 
 #### --include
 <div class="option-desc">
-Characters that should be encoded (can contain 'all' or 'utf8')
+Characters that should be encoded (can contain 'all', 'utf8' or 'ascii')
 </div>
 
 #### --exclude
@@ -21,9 +21,14 @@ Characters that should be encoded (can contain 'all' or 'utf8')
 Characters that should not be encoded
 </div>
 
+#### --regex
+<div class="option-desc">
+Regex override for characters that should be encoded
+</div>
+
 #### --lowercase
 <div class="option-desc">
-Use lowercase hex digits in percent encoding
+Use lowercase hex digits
 </div>
 
 ### EXAMPLES

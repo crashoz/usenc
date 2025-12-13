@@ -11,8 +11,8 @@ class HashEncoder(Encoder):
     the hex digest as bytes. Hash functions are one-way operations and
     cannot be decoded.
 
-    Can be used directly with hash_name parameter, or subclassed with
-    hash_name predefined.
+    Can be used directly with --hash-name parameter. Supports any hash in
+    your OpenSSL installation (openssl list -digest-algorithms)
     """
 
     params = {

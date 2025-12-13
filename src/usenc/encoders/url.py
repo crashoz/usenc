@@ -6,7 +6,7 @@ class UrlEncoder(HexEncoder):
     Standard URL encoding (percent encoding)
 
     Encodes special characters and utf8 characters with a percent 
-    prefixed hex ascii value. Produces the same encoding as 
+    prefixed hex value. Produces the same encoding as 
     javascript `encodeURIComponent` by default.
 
     Examples:

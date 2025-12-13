@@ -1,7 +1,7 @@
 from .encoder import Encoder
 from .hex import HexEncoder
 
-class UrlEncoder(Encoder):
+class UrlEncoder(HexEncoder):
     """
     Standard URL encoding (percent encoding)
 
@@ -14,20 +14,14 @@ class UrlEncoder(Encoder):
     url$param+ -> url%24param%2B
     """
 
+    prefix = '%'
+
+    # Exclude prefix parameter since it's defined as a class attribute
     params = {k: v for k, v in HexEncoder.params.items() if k not in set(['prefix'])}
+
     tests = {
         'base': {
             'params': '',
             'roundtrip': True
         }
     }
-
-    @classmethod
-    def encode(cls, text: bytes, **kwargs) -> bytes:
-        return HexEncoder.encode(text, prefix="%", **kwargs)
-
-    @classmethod
-    def decode(cls, text: bytes, **kwargs) -> bytes:
-        return HexEncoder.decode(text, prefix="%", **kwargs)
-
-

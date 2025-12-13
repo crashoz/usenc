@@ -1,7 +1,7 @@
 from .encoder import Encoder
 from .url import UrlEncoder
 
-class DoubleUrlEncoder(Encoder):
+class DoubleUrlEncoder(UrlEncoder):
     """
     Double URL encoding (percent encoding)
     
@@ -12,14 +12,11 @@ class DoubleUrlEncoder(Encoder):
     hello world -> hello%2520world
     url$param+ -> url%2524param%252B
     """
-
-    params = UrlEncoder.params
-    tests = UrlEncoder.tests
     
-    @staticmethod
-    def encode(text: str, **kwargs) -> bytes:
-        return UrlEncoder.encode(UrlEncoder.encode(text, **kwargs), **kwargs)
+    @classmethod
+    def encode(cls, text: str, **kwargs) -> bytes:
+        return super().encode(super().encode(text, **kwargs), **kwargs)
 
-    @staticmethod
-    def decode(text: str, **kwargs) -> bytes:
-        return UrlEncoder.decode(UrlEncoder.decode(text, **kwargs), **kwargs)
+    @classmethod
+    def decode(cls, text: str, **kwargs) -> bytes:
+        return super().decode(super().decode(text, **kwargs), **kwargs)

@@ -76,15 +76,18 @@ class HexEncoder(Encoder):
         }
     }
 
-    default_character_class = '^A-Za-z0-9\\-_.!~*\'()'
+    prefix: str = ''
+    character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
 
     @classmethod
     def encode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> bytes:
         if regex == '':
+            # Convert include and exlude strings as regex character classes
+            # Build a regex that matches characters to be encoded
             safe_include = transform_keywords(escape_for_char_class(include))
             safe_exclude = transform_keywords(escape_for_char_class(exclude))
 
-            regex = rf'[{cls.default_character_class}]'
+            regex = rf'[{cls.character_class}]'
             if (safe_include != ''):
                 regex = rf'({regex}|[{safe_include}])'
             if (safe_exclude != ''):
@@ -92,13 +95,17 @@ class HexEncoder(Encoder):
             regex = rf'(?:{regex})+'
 
         try:
+            # Use a custom provided regex
             encRegex = re.compile(regex)
         except re.error as e:
             raise EncodeError(f'regex error: {e}') from e
 
+        prefix = cls.prefix if prefix == '' else prefix
+
         hex_format = prefix + ('{:02x}' if lowercase else '{:02X}')
 
         def replace(match):
+            # Encode this part of the string
             enc_string = ""
             for x in match.group(0).encode(output_charset):
                 enc_string += hex_format.format(x)
@@ -113,7 +120,10 @@ class HexEncoder(Encoder):
 
     @classmethod
     def decode(cls, text: bytes, prefix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> bytes:
+        prefix = cls.prefix if prefix == '' else prefix
+        
         def decode_hex_str(match):
+            # Try to decode hex characters (maybe prefixed)
             hex_prefixed_str = match.group(0)
             hex_str = ''.join([hex_prefixed_str[i:i+2] for i in range(len(prefix), len(hex_prefixed_str), len(prefix) + 2)])
             return bytes.fromhex(hex_str).decode(input_charset)

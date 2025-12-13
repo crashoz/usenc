@@ -7,7 +7,7 @@ class HexEncoder(Encoder):
     """
     Hexadecimal string encoding
 
-    Encodes each character with its hex representation
+    Encodes each character with its hex representation and an optional prefix
 
     Examples:
     hello world -> 68656C6C6F20776F726C64
@@ -124,12 +124,15 @@ class HexEncoder(Encoder):
         
         def decode_hex_str(match):
             # Try to decode hex characters (maybe prefixed)
+            print(prefix)
             hex_prefixed_str = match.group(0)
             hex_str = ''.join([hex_prefixed_str[i:i+2] for i in range(len(prefix), len(hex_prefixed_str), len(prefix) + 2)])
             return bytes.fromhex(hex_str).decode(input_charset)
 
+        prefix_re = prefix.replace('\\', '\\\\')
+
         try:
-            return re.sub(f'({prefix}([a-fA-F0-9]{{2}}))+', decode_hex_str, text.decode(input_charset)).encode(output_charset)
+            return re.sub(f'({prefix_re}([a-fA-F0-9]{{2}}))+', decode_hex_str, text.decode(input_charset)).encode(output_charset)
         except UnicodeDecodeError as e:
             raise DecodeError(f'input-charset \'{input_charset}\' decoding failed: {e}') from e
         except UnicodeEncodeError as e:

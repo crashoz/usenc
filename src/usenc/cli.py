@@ -48,7 +48,10 @@ def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
 
     for param_name, param_spec in encoder.params.items():
         flag = f"--{param_name.replace('_', '-')}"
-        kwargs = {'help': param_spec.get('help', '')}
+        kwargs = {
+            'help': param_spec.get('help', ''),
+            'required': param_spec.get('required', False)
+        }
 
         # Handle boolean flags with action='store_true'
         if 'action' in param_spec:

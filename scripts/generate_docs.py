@@ -142,9 +142,31 @@ def generate_encoder_markdown(encoder_name: str, encoder_class: Any) -> str:
 
     return '\n'.join(md)
 
+def generate_encoder_list() -> str:
+    """
+    Generate a markdown list of all available encoders.
+
+    Returns:
+        str: Markdown formatted list of encoders with descriptions
+    """
+    lines = []
+
+    for encoder_name in sorted(ENCODERS.keys()):
+        encoder_class = ENCODERS[encoder_name]
+
+        # Extract short description from docstring
+        docstring = encoder_class.__doc__ or ""
+        short_desc, _, _ = extract_docstring_parts(docstring)
+
+        # Add encoder to list with link to its documentation
+        lines.append(f"- **[{encoder_name}](https://crashoz.github.io/usenc/encoders/{encoder_name}/)** - {short_desc}")
+
+    return '\n'.join(lines)
+
+
 def copy_readme(project_root: Path, docs_dir: Path):
     """
-    Copy README.md from project root to docs directory as index.md.
+    Update README.md with the list of all available encoders and copy to docs/index.md.
 
     Args:
         project_root: Path to project root
@@ -153,11 +175,30 @@ def copy_readme(project_root: Path, docs_dir: Path):
     readme_src = project_root / "README.md"
     readme_dst = docs_dir / "index.md"
 
-    if readme_src.exists():
-        shutil.copy2(readme_src, readme_dst)
-        print(f"  ✓ Copied README.md to docs/index.md")
-    else:
+    if not readme_src.exists():
         print(f"  ⚠ Warning: README.md not found at {readme_src}")
+        return
+
+    # Read README content
+    content = readme_src.read_text(encoding='utf-8')
+
+    # Generate encoder list
+    encoder_list = generate_encoder_list()
+
+    # Find the "## Available Encoders" section and insert the list
+    # Look for the section header and replace content until the next ## section
+    pattern = r'(## Available Encoders\n\n).*?(\n\n## |\Z)'
+    replacement = f'\\1{encoder_list}\\n\\n\\2'
+
+    modified_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+
+    # Write modified content back to README.md
+    readme_src.write_text(modified_content, encoding='utf-8')
+    print(f"  ✓ Updated README.md with encoder list")
+
+    # Write modified content to index.md
+    readme_dst.write_text(modified_content, encoding='utf-8')
+    print(f"  ✓ Copied README.md to docs/index.md")
 
 
 def main():

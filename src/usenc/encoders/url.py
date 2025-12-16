@@ -14,6 +14,7 @@ class UrlEncoder(HexEncoder):
     url$param+ -> url%24param%2B
     """
 
+    character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
     prefix = '%'
 
     # Exclude prefix parameter since it's defined as a class attribute

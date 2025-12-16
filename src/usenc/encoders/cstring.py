@@ -13,6 +13,7 @@ class CString(HexEncoder):
     url$param+ -> url\\x24param\\x2B
     """
 
+    character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
     prefix = '\\x'
 
     # Exclude prefix parameter since it's defined as a class attribute

@@ -76,7 +76,7 @@ class Base2NEncoder(Encoder):
         try:
             padding_byte = padding.encode('ascii')
         except UnicodeEncodeError as e:
-            raise DecodeError(f'padding ({padding}) must be in ascii') from e
+            raise DecodeError(f'padding ({padding}) must be ASCII') from e
 
         if len(padding_byte) != 1:
             raise DecodeError(f'padding ({padding}) must be a single character')
@@ -206,32 +206,33 @@ class Base2NEncoder(Encoder):
         return a
 
 
-def test_non_ascii_alphabet():
-    """Test error when using non-ASCII alphabet"""
-    class TestEncoder(Base2NEncoder):
-        alphabet = b"0123456789ABCDEF"
-        bits_per_char = 4
+class TestEncoder(Base2NEncoder):
+    """Test encoder for Base2N validation tests"""
+    alphabet = b"0123456789ABCDEF"
+    bits_per_char = 4
 
-    with pytest.raises(EncodeError, match="Alphabet must be ASCII"):
+def test_non_ascii_alphabet():
+    with pytest.raises(EncodeError, match=r"Alphabet must be ASCII"):
         TestEncoder.encode(b"test", alphabet="0123456789ABCDE\u00E9")
 
 
 def test_wrong_alphabet_length():
-    """Test error when alphabet has wrong length"""
-    class TestEncoder(Base2NEncoder):
-        alphabet = b"0123456789ABCDEF"
-        bits_per_char = 4
-
-    with pytest.raises(EncodeError, match="alphabet length .* must equal 2\\^bits_per_char"):
+    with pytest.raises(EncodeError, match=r"alphabet length .* must equal 2\^bits_per_char"):
         TestEncoder.encode(b"test", alphabet="0123456789ABC")
 
+def test_non_ascii_padding():
+    with pytest.raises(DecodeError, match=r"padding \(é\) must be ASCII"):
+        TestEncoder.encode(b"test", padding="é")
+
+def test_padding_in_alphabet():
+    with pytest.raises(DecodeError, match=r"padding \(A\) can not be inside the alphabet"):
+        TestEncoder.encode(b"test", padding="A")
+
+def test_padding_too_long():
+    with pytest.raises(DecodeError, match=r"padding \(==\) must be a single character"):
+        TestEncoder.encode(b"test", padding="==")
 
 def test_invalid_decode_character():
-    """Test error when decoding invalid character"""
-    class TestEncoder(Base2NEncoder):
-        alphabet = b"0123456789ABCDEF"
-        bits_per_char = 4
-
-    with pytest.raises(DecodeError, match="Invalid character"):
+    with pytest.raises(DecodeError, match=r"Invalid character"):
         TestEncoder.decode(b"68656C6C6Z")
 

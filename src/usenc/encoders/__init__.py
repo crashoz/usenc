@@ -23,7 +23,7 @@ def discover_encoders() -> List[Encoder]:
         # Find all Encoder subclasses in the module
         for name, obj in inspect.getmembers(module, inspect.isclass):
             if issubclass(obj, Encoder) and obj is not Encoder:
-                if name in ('Encoder', 'EscapeEncoder', 'Base2NEncoder'):
+                if name in ('Encoder', 'TestEncoder', 'EscapeEncoder', 'Base2NEncoder'):
                     continue
                 # Generate encoder key from class name (UrlEncoder -> url)
                 encoder_key = name.replace("Encoder", "").lower()

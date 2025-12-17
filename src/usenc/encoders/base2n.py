@@ -2,7 +2,7 @@ from .encoder import Encoder, EncodeError, DecodeError
 import pytest
 
 
-class Base2N(Encoder):
+class Base2NEncoder(Encoder):
     """
     Base encoder for power-of-two base encodings (base64, base32, base16, etc.)
 
@@ -15,13 +15,18 @@ class Base2N(Encoder):
 
     params = {
         'padding': {
+            'nargs': '?',
+            'const': '=',
+            'help': 'Specify the character used as padding'
+        },
+        'no_padding': {
             'action': 'store_true',
-            'help': 'Include padding characters (=) in output'
+            'help': 'Do not include a padding character'
         },
         'alphabet': {
             'type': str,
             'default': None,
-            'help': 'Custom alphabet to use for encoding (must have correct length for the base)'
+            'help': 'Custom alphabet to use for encoding (must have the same length as the base)'
         }
     }
 
@@ -35,7 +40,7 @@ class Base2N(Encoder):
     # Subclasses must define these
     alphabet: bytes = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"  # Default characters used for encoding (as bytes)
     bits_per_char: int = 6  # Number of bits each character represents
-    pad_char: bytes = b'='  # Padding character
+    padding: str = '='  # Padding character
 
     # Dictionary of alternative alphabets (can be overridden by subclasses)
     alphabets: dict = {}
@@ -66,7 +71,23 @@ class Base2N(Encoder):
             )
 
     @classmethod
-    def encode(cls, text: bytes, padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
+    def _validate_padding(cls, padding: str, alphabet: bytes) -> bytes:
+        """Validate the padding character and return it as a byte"""
+        try:
+            padding_byte = padding.encode('ascii')
+        except UnicodeEncodeError as e:
+            raise DecodeError(f'padding ({padding}) must be in ascii') from e
+
+        if len(padding_byte) != 1:
+            raise DecodeError(f'padding ({padding}) must be a single character')
+
+        if padding_byte in alphabet:
+            raise DecodeError(f'padding ({padding}) can not be inside the alphabet')
+
+        return padding_byte
+
+    @classmethod
+    def encode(cls, text: bytes, padding: str = '', no_padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
         """
         Encode bytes using power-of-two base encoding with bitwise operations
 
@@ -107,21 +128,25 @@ class Base2N(Encoder):
             index = (bit_buffer << (cls.bits_per_char - bits_in_buffer)) & mask
             result.append(alphabet_bytes[index])
 
-        # Add padding if requested
-        if padding:
+        if not no_padding:
+            # Add padding if requested
+            padding = padding if padding else cls.padding
+            padding_bytes = cls._validate_padding(padding, alphabet_bytes)
+
             # Calculate how many padding characters are needed
             # Padding ensures output length is a multiple of the encoding group size
+
             bits_per_byte = 8
             lcm = (cls.bits_per_char * bits_per_byte) // cls._gcd(cls.bits_per_char, bits_per_byte)
             chars_per_group = lcm // cls.bits_per_char
 
             padding_needed = (chars_per_group - (len(result) % chars_per_group)) % chars_per_group
-            result.extend(cls.pad_char * padding_needed)
+            result.extend(padding_bytes * padding_needed)
 
         return bytes(result)
 
     @classmethod
-    def decode(cls, text: bytes, padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
+    def decode(cls, text: bytes, padding: str = '', no_padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
         """
         Decode power-of-two base encoded bytes using bitwise operations
 
@@ -138,7 +163,10 @@ class Base2N(Encoder):
         cls._validate_alphabet(alphabet_bytes)
 
         # Remove padding characters
-        text = text.rstrip(cls.pad_char)
+        if not no_padding:
+            padding = padding if padding else cls.padding
+            padding_bytes = cls._validate_padding(padding, alphabet_bytes)   
+            text = text.rstrip(padding_bytes)
 
         if not text:
             return b''
@@ -180,7 +208,7 @@ class Base2N(Encoder):
 
 def test_non_ascii_alphabet():
     """Test error when using non-ASCII alphabet"""
-    class TestEncoder(Base2N):
+    class TestEncoder(Base2NEncoder):
         alphabet = b"0123456789ABCDEF"
         bits_per_char = 4
 
@@ -190,7 +218,7 @@ def test_non_ascii_alphabet():
 
 def test_wrong_alphabet_length():
     """Test error when alphabet has wrong length"""
-    class TestEncoder(Base2N):
+    class TestEncoder(Base2NEncoder):
         alphabet = b"0123456789ABCDEF"
         bits_per_char = 4
 
@@ -200,7 +228,7 @@ def test_wrong_alphabet_length():
 
 def test_invalid_decode_character():
     """Test error when decoding invalid character"""
-    class TestEncoder(Base2N):
+    class TestEncoder(Base2NEncoder):
         alphabet = b"0123456789ABCDEF"
         bits_per_char = 4
 

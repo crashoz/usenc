@@ -1,7 +1,7 @@
-from .base2n import Base2N
+from .base2n import Base2NEncoder
 
 
-class Base16Encoder(Base2N):
+class Base16Encoder(Base2NEncoder):
     """
     Standard Base16 encoding (RFC 4648), also known as hexadecimal encoding
 

@@ -3,7 +3,7 @@ from .base2n import Base2NEncoder
 
 class Base16Encoder(Base2NEncoder):
     """
-    Standard Base16 encoding (RFC 4648), also known as hexadecimal encoding
+    Standard Base16 encoding (RFC 4648)
 
     Encodes binary data using 16 ASCII characters (0-9, A-F)
     Each character represents 4 bits of data.

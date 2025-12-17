@@ -5,13 +5,13 @@ import pytest
 
 class EscapeEncoder(Encoder):
     """
-    Hexadecimal string encoding
+    Generic escape encoder.
 
-    Encodes each character with its hex representation and an optional prefix
+    Encodes each character with the `cls.encode_char` function and add a prefix and a suffix.
+    Characters to be encoded are selected by the `character_class` or `regex` parameter, and are
+    fine tuned by the `include` and `exclude` parameters.
 
-    Examples:
-    hello world -> 68656C6C6F20776F726C64
-    url$param+ -> 75726C253234706172616D253242
+    The decoder uses `decode_class` to match sequences to be decoded by the `cls.decode_char` function
     """
 
     params = {
@@ -92,15 +92,11 @@ class EscapeEncoder(Encoder):
 
     @classmethod
     def encode_char(cls, c: str, lowercase: bool = False, prefix: str = '', suffix: str = '', input_charset: str = 'utf8', output_charset: str = 'utf8'):
-        hex_format = '{:02x}' if lowercase else '{:02X}'
-        return ''.join([prefix + hex_format.format(b) + suffix for b in c.encode(output_charset)])
+        raise NotImplementedError
 
     @classmethod
     def decode_char(cls, seq: str, prefix: str = '', suffix: str = '', input_charset: str = 'utf8', output_charset: str = 'utf8'):
-        plen = len(prefix)
-        slen = len(suffix)
-        hex_str = ''.join([seq[i:i+2] for i in range(plen, len(seq), slen + 2 + plen)])
-        return bytes.fromhex(hex_str).decode(input_charset)
+        raise NotImplementedError
 
     @classmethod
     def encode(cls, text: bytes, prefix: str = '', suffix: str = '', include: str = '', exclude: str = '', regex: str = '', lowercase: bool = False, input_charset: str = 'utf8', output_charset: str = 'utf8', **kwargs) -> bytes:
@@ -159,18 +155,3 @@ class EscapeEncoder(Encoder):
 def test_invalid_regex():
     with pytest.raises(EncodeError, match="regex error: unterminated character set at position 0"):
         EscapeEncoder.encode(b'hello world', regex='[a-z')
-
-
-def test_encode_invalid_character():
-    with pytest.raises(EncodeError, match="input-charset 'utf8' decoding failed"):
-        EscapeEncoder.encode(b'h\xE9llo')
-
-    with pytest.raises(EncodeError, match="output-charset 'ascii' encoding failed"):
-        EscapeEncoder.encode(b'h\xC3\xA9llo', output_charset='ascii')
-
-def test_decode_invalid_character():
-    with pytest.raises(DecodeError, match="input-charset 'utf8' decoding failed"):
-        EscapeEncoder.decode(b'hE9llo')
-
-    with pytest.raises(DecodeError, match="output-charset 'ascii' encoding failed"):
-        EscapeEncoder.decode(b'h\xC3\xA9llo', output_charset='ascii')

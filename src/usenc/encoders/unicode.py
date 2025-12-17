@@ -6,12 +6,15 @@ import pytest
 
 class UnicodeEncoder(EscapeEncoder):
     """
-    Unicode escapes string encoding
+    Unicode escapes encoding
 
-    Encodes each character with its unicode representation and a prefix/suffix
+    Encodes each character with its unicode representation and an optional prefix/suffix.
 
     Examples:
     hello world -> \\u0068\\u0065\\u006C\\u006C\\u006F\\u0020\\u0077\\u006F\\u0072\\u006C\\u0064
+    café -> \\u0063\\u0061\\u0066\\u00E9
+    日本語 -> \\u65E5\\u672C\\u8A9E
+    🚀 -> \\u1F680
     """
 
     prefix = '\\u'
@@ -26,7 +29,7 @@ class UnicodeEncoder(EscapeEncoder):
         },
         'long': {
             'action': 'store_true',
-            'help': 'Use 8 digits instead of 4'
+            'help': 'Use 8 hex digits instead of 4'
         }
     }
 
@@ -83,7 +86,7 @@ class UnicodeEncoder(EscapeEncoder):
         return ''.join(decode_arr)
 
     @classmethod
-    def compute_affix(cls, **kwargs):
+    def _compute_affix(cls, **kwargs):
         if kwargs['prefix'] != '':
             prefix = kwargs['prefix']
         elif kwargs['var_length']:
@@ -104,14 +107,14 @@ class UnicodeEncoder(EscapeEncoder):
 
     @classmethod
     def encode(cls, text, **kwargs):   
-        prefix, suffix = cls.compute_affix(**kwargs)
+        prefix, suffix = cls._compute_affix(**kwargs)
         kwargs.pop('prefix', None)
         kwargs.pop('suffix', None)
         return super(UnicodeEncoder, cls).encode(text, prefix=prefix, suffix=suffix, **kwargs)
 
     @classmethod
     def decode(cls, text, **kwargs):
-        prefix, suffix = cls.compute_affix(**kwargs)
+        prefix, suffix = cls._compute_affix(**kwargs)
         kwargs.pop('prefix', None)
         kwargs.pop('suffix', None)
         return super(UnicodeEncoder, cls).decode(text, prefix=prefix, suffix=suffix, **kwargs)

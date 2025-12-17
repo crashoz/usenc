@@ -3,9 +3,9 @@ from .hash import HashEncoder
 
 class Sha256Encoder(HashEncoder):
     """
-    SHA-256 hash encoder
+    SHA-256 hash encoding
 
-    Computes SHA-256 hash of input bytes and outputs the hex digest as bytes.
+    Computes SHA-256 hash of input bytes and outputs the hex digest.
     SHA-256 is a one-way hash function and cannot be decoded.
 
     SHA-256 is part of the SHA-2 family and is currently considered secure

@@ -1,7 +1,7 @@
 from .encoder import Encoder
 from .hex import HexEncoder
 
-class CString(HexEncoder):
+class CStringEncoder(HexEncoder):
     """
     C string escaping
 
@@ -10,14 +10,16 @@ class CString(HexEncoder):
 
     Examples:
     hello world -> hello\\x20world
-    url$param+ -> url\\x24param\\x2B
+    escape "me" -> escape\\x20\\x22me\\x22
+    café -> caf\\xC3\\xA9
+    http://example.org -> http\\x3A\\x2F\\x2Fexample.org
     """
 
     character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
     prefix = '\\x'
 
     # Exclude prefix parameter since it's defined as a class attribute
-    params = {k: v for k, v in HexEncoder.params.items() if k not in set(['prefix'])}
+    params = {k: v for k, v in HexEncoder.params.items() if k not in set(['prefix', 'suffix'])}
 
     tests = {
         'base': {

@@ -3,9 +3,9 @@ from .hash import HashEncoder
 
 class Sha1Encoder(HashEncoder):
     """
-    SHA-1 hash encoder
+    SHA-1 hash encoding
 
-    Computes SHA-1 hash of input bytes and outputs the hex digest as bytes.
+    Computes SHA-1 hash of input bytes and outputs the hex digest.
     SHA-1 is a one-way hash function and cannot be decoded.
 
     Note: SHA-1 is cryptographically broken and should not be used for security purposes.

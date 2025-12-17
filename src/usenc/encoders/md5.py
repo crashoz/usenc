@@ -3,9 +3,9 @@ from .hash import HashEncoder
 
 class Md5Encoder(HashEncoder):
     """
-    MD5 hash encoder
+    MD5 hash encoding
 
-    Computes MD5 hash of input bytes and outputs the hex digest as bytes.
+    Computes MD5 hash of input bytes and outputs the hex digest.
     MD5 is a one-way hash function and cannot be decoded.
 
     Note: MD5 is cryptographically broken and should not be used for security purposes.

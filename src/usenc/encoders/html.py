@@ -7,13 +7,18 @@ import pytest
 
 class HtmlEncoder(EscapeEncoder):
     """
-    Hexadecimal string encoding
+    HTML Entities encoding
 
-    Encodes each character with its hex representation and an optional prefix
+    Encodes each character with its html escaped entity, based on the WHATWG HTML Living Standard.
+    The full list of named character is available at https://html.spec.whatwg.org/multipage/named-characters.html
+    This encoder uses Python's html.entities module for the named characters, and encodes the
+    other with their decimal or hexadecimal representation.
 
     Examples:
-    hello world -> 68656C6C6F20776F726C64
-    url$param+ -> 75726C253234706172616D253242
+    hello world -> hello world
+    <p>hello</p> -> &#lt;p&#gt;hello&#lt;/p&#gt;
+    <a href="/hello">hello</a> -> &#lt;a href=&#quot;/hello&#quot;&#gt;hello&#lt;/a&#gt;
+    café -> caf&#eacute;
     """
 
     params = {

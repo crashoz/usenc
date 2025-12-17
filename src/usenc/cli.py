@@ -48,19 +48,7 @@ def add_encoder_params(parser: argparse.ArgumentParser, encoder_name: str):
 
     for param_name, param_spec in encoder.params.items():
         flag = f"--{param_name.replace('_', '-')}"
-        kwargs = {
-            'help': param_spec.get('help', ''),
-            'required': param_spec.get('required', False)
-        }
-
-        # Handle boolean flags with action='store_true'
-        if 'action' in param_spec:
-            kwargs['action'] = param_spec['action']
-        else:
-            kwargs['type'] = param_spec.get('type', str)
-            kwargs['default'] = param_spec.get('default')
-
-        parser.add_argument(flag, **kwargs)
+        parser.add_argument(flag, **param_spec)
 
 def add_default_params(parser: argparse.ArgumentParser):
     """ Setup default parameters for the parser """

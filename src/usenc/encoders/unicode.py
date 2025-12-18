@@ -1,8 +1,5 @@
 from .encoder import EncodeError, DecodeError
 from .escape import EscapeEncoder
-from ..utils import escape_for_char_class, transform_keywords
-import re
-import pytest
 
 class UnicodeEncoder(EscapeEncoder):
     """

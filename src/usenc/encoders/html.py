@@ -3,7 +3,6 @@ from .escape import EscapeEncoder
 from ..utils import escape_for_char_class, transform_keywords
 from html.entities import name2codepoint, codepoint2name
 import re
-import pytest
 
 class HtmlEncoder(EscapeEncoder):
     """

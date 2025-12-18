@@ -31,17 +31,3 @@ class HexEncoder(EscapeEncoder):
         slen = len(suffix)
         hex_str = ''.join([seq[i:i+2] for i in range(plen, len(seq), slen + 2 + plen)])
         return bytes.fromhex(hex_str).decode(input_charset)
-
-def test_encode_invalid_character():
-    with pytest.raises(EncodeError, match="input-charset 'utf8' decoding failed"):
-        HexEncoder.encode(b'h\xE9llo')
-
-    with pytest.raises(EncodeError, match="output-charset 'ascii' encoding failed"):
-        HexEncoder.encode(b'h\xC3\xA9llo', output_charset='ascii')
-
-def test_decode_invalid_character():
-    with pytest.raises(DecodeError, match="input-charset 'utf8' decoding failed"):
-        HexEncoder.decode(b'hE9llo')
-
-    with pytest.raises(DecodeError, match="output-charset 'ascii' encoding failed"):
-        HexEncoder.decode(b'h\xC3\xA9llo', output_charset='ascii')

@@ -1,7 +1,5 @@
 # Universal String Encoder
 
-# Work in Progress - Project is not ready for use
-
 A universal string encoder CLI tool and Python library for encoding/decoding strings in various formats.
 
 ## Features
@@ -31,6 +29,12 @@ pip install usenc
 ## Quick Example
 
 ### CLI
+
+```bash
+# Get help and parameters
+usenc --help
+usenc unicode --help
+```
 
 ```bash
 # Encode a string

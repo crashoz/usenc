@@ -35,7 +35,11 @@ class Base32Encoder(Base2NEncoder):
             'roundtrip': True
         },
         'padding': {
-            'params': '--padding',
+            'params': '--padding *',
+            'roundtrip': True
+        },
+        'no_padding': {
+            'params': '--no-padding',
             'roundtrip': True
         },
         'hex_alphabet': {

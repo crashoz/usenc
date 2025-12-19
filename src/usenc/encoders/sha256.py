@@ -15,10 +15,10 @@ class Sha256Encoder(HashEncoder):
     hello world -> B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9
     """
 
-    hash_name = 'sha256'
+    algorithm = 'sha256'
 
-    # Exclude hash_name parameter since it's defined as a class attribute
-    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['hash_name'])}
+    # Exclude algorithm parameter since it's defined as a class attribute
+    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['algorithm'])}
 
     tests = {
         'base': {

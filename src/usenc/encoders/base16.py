@@ -31,9 +31,10 @@ class Base16Encoder(Base2NEncoder):
             'roundtrip': True
         },
         'padding': {
-            'params': '--padding',
+            'params': '--padding =',
             'roundtrip': True
         },
+        
         'lower_alphabet': {
             'params': '--alphabet lower',
             'roundtrip': True

@@ -31,7 +31,11 @@ class Base64Encoder(Base2NEncoder):
             'roundtrip': True
         },
         'padding': {
-            'params': '--padding',
+            'params': '--padding *',
+            'roundtrip': True
+        },
+        'no_padding': {
+            'params': '--no-padding',
             'roundtrip': True
         },
         'url_alphabet': {

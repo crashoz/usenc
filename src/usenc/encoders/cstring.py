@@ -18,12 +18,7 @@ class CStringEncoder(HexEncoder):
     character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
     prefix = '\\x'
 
-    # Exclude prefix parameter since it's defined as a class attribute
+    # Exclude parameters since they're defined as a class attribute
     params = {k: v for k, v in HexEncoder.params.items() if k not in set(['prefix', 'suffix'])}
+    tests = {k: v for k, v in HexEncoder.tests.items() if k not in set(['prefix', 'suffix', 'complex'])}
 
-    tests = {
-        'base': {
-            'params': '',
-            'roundtrip': True
-        }
-    }

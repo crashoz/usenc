@@ -21,7 +21,7 @@ class HtmlEncoder(EscapeEncoder):
     """
 
     params = {
-        **EscapeEncoder.params,
+        **{k: v for k, v in EscapeEncoder.params.items() if k not in set(['prefix', 'suffix'])},
         'hex': {
             'action': 'store_true',
             'help': 'Use hexadecimal instead of decimal'
@@ -29,7 +29,7 @@ class HtmlEncoder(EscapeEncoder):
     }
 
     tests = {
-        **EscapeEncoder.tests,
+        **{k: v for k, v in EscapeEncoder.tests.items() if k not in set(['prefix', 'suffix', 'complex'])}, 
         'hex': {
             'params': '--hex',
             'roundtrip': True

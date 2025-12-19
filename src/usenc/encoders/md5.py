@@ -14,10 +14,10 @@ class Md5Encoder(HashEncoder):
     hello world -> 5EB63BBBE01EEED093CB22BB8F5ACDC3
     """
 
-    hash_name = 'md5'
+    algorithm = 'md5'
 
-    # Exclude hash_name parameter since it's defined as a class attribute
-    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['hash_name'])}
+    # Exclude algorithm parameter since it's defined as a class attribute
+    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['algorithm'])}
 
     tests = {
         'base': {

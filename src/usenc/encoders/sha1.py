@@ -14,10 +14,10 @@ class Sha1Encoder(HashEncoder):
     hello world -> 2AAE6C35C94FCFB415DBE95F408B9CE91EE846ED
     """
 
-    hash_name = 'sha1'
+    algorithm = 'sha1'
 
-    # Exclude hash_name parameter since it's defined as a class attribute
-    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['hash_name'])}
+    # Exclude algorithm parameter since it's defined as a class attribute
+    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['algorithm'])}
 
     tests = {
         'base': {

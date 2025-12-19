@@ -58,8 +58,12 @@ class EscapeEncoder(Encoder):
             'params': '--suffix sfx',
             'roundtrip': True
         },
+        'complex': {
+            'params': '--prefix ${ --suffix } --lowercase --regex [^a-zA-Z]+',
+            'roundtrip': True
+        },
         'include': {
-            'params': '--prefix pfx --include ghij',
+            'params': '--include ghij',
             'roundtrip': True
         },
         'exclude': {
@@ -70,8 +74,8 @@ class EscapeEncoder(Encoder):
             'params': '--include all',
             'roundtrip': True
         },
-        'include_all_except_one': {
-            'params': '--include all --exclude g',
+        'include_all_except_some': {
+            'params': '--include all --exclude ghij',
             'roundtrip': False
         },
         'regex': {

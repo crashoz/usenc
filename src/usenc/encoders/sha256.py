@@ -1,6 +1,5 @@
 from .hash import HashEncoder
 
-
 class Sha256Encoder(HashEncoder):
     """
     SHA-256 hash encoding

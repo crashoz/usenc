@@ -1,6 +1,5 @@
 from .base2n import Base2NEncoder
 
-
 class Base16Encoder(Base2NEncoder):
     """
     Standard Base16 encoding (RFC 4648)

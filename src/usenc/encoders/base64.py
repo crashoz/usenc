@@ -1,6 +1,5 @@
 from .base2n import Base2NEncoder
 
-
 class Base64Encoder(Base2NEncoder):
     """
     Standard Base64 encoding (RFC 4648)

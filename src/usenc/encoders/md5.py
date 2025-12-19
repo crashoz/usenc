@@ -1,6 +1,5 @@
 from .hash import HashEncoder
 
-
 class Md5Encoder(HashEncoder):
     """
     MD5 hash encoding

@@ -1,6 +1,5 @@
 from .base2n import Base2NEncoder
 
-
 class Base32Encoder(Base2NEncoder):
     """
     Standard Base32 encoding (RFC 4648)

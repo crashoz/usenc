@@ -6,8 +6,10 @@
 
 Encodes each character with its html escaped entity, based on the WHATWG HTML Living Standard.
 The full list of named character is available at https://html.spec.whatwg.org/multipage/named-characters.html
+
 This encoder uses Python's html.entities module for the named characters, and encodes the
-other with their decimal or hexadecimal representation.
+others with their decimal or hexadecimal representation.
+
 
 ### OPTIONS
 

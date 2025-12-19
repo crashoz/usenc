@@ -7,8 +7,10 @@
 This encoder computes cryptographic hashes of input bytes and outputs
 the resulting hex digest. Hash functions are one-way operations and
 cannot be decoded.
+
 Can be used directly with --hash-name parameter. Supports any hash in
 your OpenSSL installation (`openssl list -digest-algorithms`)
+
 
 ### OPTIONS
 

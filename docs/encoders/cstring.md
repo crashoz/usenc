@@ -4,8 +4,8 @@
 
 ### DESCRIPTION
 
-Encodes special characters and utf8 characters with a \x
-prefixed hex value.
+Encodes special characters and utf8 characters with a \x prefixed hex value.
+
 
 ### OPTIONS
 

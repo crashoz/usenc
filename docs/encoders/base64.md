@@ -6,9 +6,12 @@
 
 Encodes binary data using 64 ASCII characters (A-Z, a-z, 0-9, +, /)
 Each character represents 6 bits of data.
+
 Alternative alphabets:
+
 - standard: A-Z, a-z, 0-9, +, / (default)
 - url: A-Z, a-z, 0-9, -, _ (URL-safe variant)
+
 
 ### OPTIONS
 

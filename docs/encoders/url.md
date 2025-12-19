@@ -8,6 +8,7 @@ Encodes special characters and utf8 characters with a percent
 prefixed hex value. Produces the same encoding as
 javascript `encodeURIComponent` by default.
 
+
 ### OPTIONS
 
 

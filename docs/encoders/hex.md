@@ -6,6 +6,7 @@
 
 Encodes each character with its hex 2-digits representation and an optional prefix/suffix
 
+
 ### OPTIONS
 
 

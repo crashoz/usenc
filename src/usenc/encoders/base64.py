@@ -9,6 +9,7 @@ class Base64Encoder(Base2NEncoder):
     Each character represents 6 bits of data.
 
     Alternative alphabets:
+
         - standard: A-Z, a-z, 0-9, +, / (default)
         - url: A-Z, a-z, 0-9, -, _ (URL-safe variant)
 

@@ -6,9 +6,12 @@
 
 Encodes binary data using 16 ASCII characters (0-9, A-F)
 Each character represents 4 bits of data.
+
 Alternative alphabets:
+
 - upper: 0-9, A-F (default, uppercase)
 - lower: 0-9, a-f (lowercase)
+
 
 ### OPTIONS
 

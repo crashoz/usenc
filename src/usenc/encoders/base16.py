@@ -9,6 +9,7 @@ class Base16Encoder(Base2NEncoder):
     Each character represents 4 bits of data.
 
     Alternative alphabets:
+
         - upper: 0-9, A-F (default, uppercase)
         - lower: 0-9, a-f (lowercase)
 

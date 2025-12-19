@@ -6,6 +6,7 @@
 
 Encodes each character with its unicode representation and an optional prefix/suffix.
 
+
 ### OPTIONS
 
 

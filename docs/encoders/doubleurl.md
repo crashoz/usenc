@@ -5,7 +5,9 @@
 ### DESCRIPTION
 
 Apply the URL Encoder twice on the input string.
+
 It is the same as doing `echo hello | usenc url | usenc url`
+
 
 ### OPTIONS
 

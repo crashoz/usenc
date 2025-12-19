@@ -6,6 +6,7 @@ class DoubleUrlEncoder(UrlEncoder):
     Double URL encoding (RFC 3986 percent encoding)
 
     Apply the URL Encoder twice on the input string.
+
     It is the same as doing `echo hello | usenc url | usenc url`
 
     Examples:

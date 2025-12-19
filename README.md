@@ -2,6 +2,8 @@
 
 A universal string encoder CLI tool and Python library for encoding/decoding strings in various formats.
 
+Check out the [official documentation](https://crashoz.github.io/usenc/)
+
 ## Features
 
 - 🚀 **Simple CLI** - Encode/decode from stdin or files
@@ -91,7 +93,7 @@ print(decoded)  # hello world
 
 ## Optional Encoding
 
-Some encoders provide the option to select which characters should be encoded (e.g. `url` or `cstring`). Those have a default setting that can be augmented with `--include some_chars` and `--exclude some_chars`. 
+Some encoders provide the option to select which characters should be encoded (e.g. `url` or `cstring`). Those have a default setting that can be augmented with `--include some_chars` and `--exclude some_chars`.
 
 Advanced users can specify directly `--regex match_chars` that will override these parameters.
 

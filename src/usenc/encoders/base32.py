@@ -1,5 +1,6 @@
 from .base2n import Base2NEncoder
 
+
 class Base32Encoder(Base2NEncoder):
     """
     Standard Base32 encoding (RFC 4648)
@@ -22,35 +23,17 @@ class Base32Encoder(Base2NEncoder):
     bits_per_char = 5
 
     alphabets = {
-        'standard': b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-        'hex': b"0123456789ABCDEFGHIJKLMNOPQRSTUV",
-        'crockford': b"0123456789ABCDEFGHJKMNPQRSTVWXYZ",
-        'z': b"ybndrfg8ejkmcpqxot1uwisza345h769"
+        "standard": b"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
+        "hex": b"0123456789ABCDEFGHIJKLMNOPQRSTUV",
+        "crockford": b"0123456789ABCDEFGHJKMNPQRSTVWXYZ",
+        "z": b"ybndrfg8ejkmcpqxot1uwisza345h769",
     }
 
     tests = {
-        'base': {
-            'params': '',
-            'roundtrip': True
-        },
-        'padding': {
-            'params': '--padding *',
-            'roundtrip': True
-        },
-        'no_padding': {
-            'params': '--no-padding',
-            'roundtrip': True
-        },
-        'hex_alphabet': {
-            'params': '--alphabet hex',
-            'roundtrip': True
-        },
-        'crockford_alphabet': {
-            'params': '--alphabet crockford',
-            'roundtrip': True
-        },
-        'z_alphabet': {
-            'params': '--alphabet z',
-            'roundtrip': True
-        }
+        "base": {"params": "", "roundtrip": True},
+        "padding": {"params": "--padding *", "roundtrip": True},
+        "no_padding": {"params": "--no-padding", "roundtrip": True},
+        "hex_alphabet": {"params": "--alphabet hex", "roundtrip": True},
+        "crockford_alphabet": {"params": "--alphabet crockford", "roundtrip": True},
+        "z_alphabet": {"params": "--alphabet z", "roundtrip": True},
     }

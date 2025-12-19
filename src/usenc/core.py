@@ -1,18 +1,25 @@
 from .encoders import ENCODERS
 
-def encode(text: str, encoder_name: str, **encoder_params) -> str:
+
+class EncoderNotFoundError(Exception):
+    """Exception raised when an encoder is not found."""
+
+    pass
+
+
+def encode(text: bytes, encoder_name: str, **encoder_params) -> bytes:
     """Encode a single text string"""
     encoder = ENCODERS.get(encoder_name)
     if not encoder:
-        raise ValueError(f"Unknown encoder: {encoder_name}")
+        raise EncoderNotFoundError(f"Unknown encoder: {encoder_name}")
 
     return encoder.encode(text, **encoder_params)
 
-def decode(text: str, encoder_name: str, **encoder_params) -> str:
+
+def decode(text: bytes, encoder_name: str, **encoder_params) -> bytes:
     """Decode a single text string"""
     encoder = ENCODERS.get(encoder_name)
     if not encoder:
-        raise ValueError(f"Unknown encoder: {encoder_name}")
+        raise EncoderNotFoundError(f"Unknown encoder: {encoder_name}")
 
     return encoder.decode(text, **encoder_params)
-

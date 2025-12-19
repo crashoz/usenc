@@ -1,5 +1,7 @@
-from .encoder import Encoder, EncodeError, DecodeError
 import hashlib
+
+from .encoder import DecodeError, EncodeError, Encoder
+
 
 class HashEncoder(Encoder):
     """
@@ -19,34 +21,25 @@ class HashEncoder(Encoder):
     """
 
     params = {
-        'algorithm': {
-            'type': str,
-            'default': None,
-            'required': True,
-            'help': 'Hash algorithm name (e.g., md5, sha256, sha512)'
+        "algorithm": {
+            "type": str,
+            "default": None,
+            "required": True,
+            "help": "Hash algorithm name (e.g., md5, sha256, sha512)",
         },
-        'lowercase': {
-            'action': 'store_true',
-            'help': 'Output hex digest in lowercase'
-        }
+        "lowercase": {"action": "store_true", "help": "Output hex digest in lowercase"},
     }
 
     tests = {
-        'base': {
-            'params': '--algorithm sha256',
-            'roundtrip': False
-        },
-        'lowercase': {
-            'params': '--algorithm sha256 --lowercase',
-            'roundtrip': False
-        }
+        "base": {"params": "--algorithm sha256", "roundtrip": False},
+        "lowercase": {"params": "--algorithm sha256 --lowercase", "roundtrip": False},
     }
 
     # Subclasses can define this to avoid requiring algorithm parameter
-    algorithm: str = None
+    algorithm: str = ""
 
     @classmethod
-    def encode(cls, text: bytes, algorithm: str = None, lowercase: bool = False, **kwargs) -> bytes:
+    def encode(cls, text: bytes, algorithm: str = "", lowercase: bool = False, **kwargs) -> bytes:
         """
         Compute hash of input bytes and return hex digest as bytes
 
@@ -59,10 +52,10 @@ class HashEncoder(Encoder):
             Hex digest as bytes
         """
         # Use parameter if provided, otherwise fall back to class attribute
-        algorithm = algorithm if algorithm is not None else cls.algorithm
+        algorithm = algorithm if algorithm else cls.algorithm
 
-        if algorithm is None:
-            raise EncodeError(f"algorithm parameter is required")
+        if not algorithm:
+            raise EncodeError("algorithm parameter is required")
 
         try:
             hasher = hashlib.new(algorithm)
@@ -75,7 +68,7 @@ class HashEncoder(Encoder):
         if not lowercase:
             digest = digest.upper()
 
-        return digest.encode('ascii')
+        return digest.encode("ascii")
 
     @classmethod
     def decode(cls, text: bytes, **kwargs) -> bytes:

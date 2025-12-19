@@ -2,27 +2,27 @@
 Roundtrip test for all encoders on all samples
 """
 
-import pytest
+import sys
 from pathlib import Path
 
-import sys
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from conftest import load_encoders_tests, load_samples_file, parse_encoder_params
+
 from usenc.encoders import ENCODERS
 from usenc.encoders.encoder import DecodeError
 
-from conftest import load_samples_file, load_encoders_tests, parse_encoder_params
-
 # Load samples once for all tests
 TEST_SAMPLES = load_samples_file(Path(__file__).parent / "snapshots" / "samples.txt")
-test_parameters = load_encoders_tests(onlyRoundtrip=True)
+test_parameters = load_encoders_tests(only_roundtrip=True)
+
 
 class TestEncoderRoundtrip:
     """Check that the roundtrip property holds: decode(encode(x)) = x"""
 
     @pytest.mark.parametrize(
-        "encoder_test",
-        sorted(test_parameters),
-        ids=lambda x: f"{x[0]}_{x[1]}"
+        "encoder_test", sorted(test_parameters), ids=lambda x: f"{x[0]}_{x[1]}"
     )
     def test_encode(self, encoder_test: tuple):
         """Test that encode->decode is lossless for all samples."""

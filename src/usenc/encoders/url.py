@@ -1,12 +1,12 @@
-from .encoder import Encoder
 from .hex import HexEncoder
+
 
 class UrlEncoder(HexEncoder):
     """
     Standard URL encoding (RFC 3986 percent encoding)
 
-    Encodes special characters and utf8 characters with a percent 
-    prefixed hex value. Produces the same encoding as 
+    Encodes special characters and utf8 characters with a percent
+    prefixed hex value. Produces the same encoding as
     javascript `encodeURIComponent` by default.
 
     Examples:
@@ -16,15 +16,10 @@ class UrlEncoder(HexEncoder):
     <div>hello</div> -> %3Cdiv%3Ehello%3C%2Fdiv%3E
     """
 
-    character_class: str = '^A-Za-z0-9\\-_.!~*\'()'
-    prefix = '%'
+    character_class: str = "^A-Za-z0-9\\-_.!~*'()"
+    prefix = "%"
 
     # Exclude prefix parameter since it's defined as a class attribute
-    params = {k: v for k, v in HexEncoder.params.items() if k not in set(['prefix', 'suffix'])}
+    params = {k: v for k, v in HexEncoder.params.items() if k not in {"prefix", "suffix"}}
 
-    tests = {
-        'base': {
-            'params': '',
-            'roundtrip': True
-        }
-    }
+    tests = {"base": {"params": "", "roundtrip": True}}

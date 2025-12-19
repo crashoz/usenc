@@ -2,15 +2,17 @@
 Check the core API
 """
 
-import pytest
+import sys
 from pathlib import Path
 
-import sys
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-from usenc import encode, decode
+from usenc import EncoderNotFoundError, decode, encode
 
 text = b"<hello world>"
 encoded = b"%3Chello%20world%3E"
+
 
 class TestCoreAPI:
     """Basic tests for the core API"""
@@ -24,11 +26,11 @@ class TestCoreAPI:
         assert decode(encoded, "url") == text
 
     def test_encode_unknown(self):
-        with pytest.raises(Exception):
+        with pytest.raises(EncoderNotFoundError):
             encode(text, "unknown")
 
     def test_decode_unknown(self):
-        with pytest.raises(Exception):
+        with pytest.raises(EncoderNotFoundError):
             decode(encoded, "unknown")
 
     def test_encode_params(self):

@@ -1,10 +1,12 @@
-import pytest
+import sys
 from pathlib import Path
 
-import sys
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-from usenc.encoders.encoder import EncodeError, DecodeError
-from usenc.encoders.hash  import HashEncoder
+from usenc.encoders.encoder import DecodeError, EncodeError
+from usenc.encoders.hash import HashEncoder
+
 
 def test_hash_no_name():
     """Test error when algorithm is not provided and not defined in class"""
@@ -15,7 +17,7 @@ def test_hash_no_name():
 def test_hash_invalid_algorithm():
     """Test error with invalid hash algorithm name"""
     with pytest.raises(EncodeError, match="Unknown hash algorithm"):
-        HashEncoder.encode(b"test", algorithm='invalid_hash_algorithm')
+        HashEncoder.encode(b"test", algorithm="invalid_hash_algorithm")
 
 
 def test_hash_cannot_decode():

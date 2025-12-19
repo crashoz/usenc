@@ -1,5 +1,6 @@
 from .base2n import Base2NEncoder
 
+
 class Base64Encoder(Base2NEncoder):
     """
     Standard Base64 encoding (RFC 4648)
@@ -20,25 +21,13 @@ class Base64Encoder(Base2NEncoder):
     bits_per_char = 6
 
     alphabets = {
-        'standard': b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
-        'url': b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        "standard": b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+        "url": b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",
     }
 
     tests = {
-        'base': {
-            'params': '',
-            'roundtrip': True
-        },
-        'padding': {
-            'params': '--padding *',
-            'roundtrip': True
-        },
-        'no_padding': {
-            'params': '--no-padding',
-            'roundtrip': True
-        },
-        'url_alphabet': {
-            'params': '--alphabet url',
-            'roundtrip': True
-        }
+        "base": {"params": "", "roundtrip": True},
+        "padding": {"params": "--padding *", "roundtrip": True},
+        "no_padding": {"params": "--no-padding", "roundtrip": True},
+        "url_alphabet": {"params": "--alphabet url", "roundtrip": True},
     }

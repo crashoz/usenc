@@ -1,5 +1,6 @@
 from .hash import HashEncoder
 
+
 class Md5Encoder(HashEncoder):
     """
     MD5 hash encoding
@@ -13,18 +14,12 @@ class Md5Encoder(HashEncoder):
     hello world -> 5EB63BBBE01EEED093CB22BB8F5ACDC3
     """
 
-    algorithm = 'md5'
+    algorithm = "md5"
 
     # Exclude algorithm parameter since it's defined as a class attribute
-    params = {k: v for k, v in HashEncoder.params.items() if k not in set(['algorithm'])}
+    params = {k: v for k, v in HashEncoder.params.items() if k not in {"algorithm"}}
 
     tests = {
-        'base': {
-            'params': '',
-            'roundtrip': False
-        },
-        'lowercase': {
-            'params': '--lowercase',
-            'roundtrip': False
-        }
+        "base": {"params": "", "roundtrip": False},
+        "lowercase": {"params": "--lowercase", "roundtrip": False},
     }

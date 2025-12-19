@@ -1,4 +1,7 @@
-from .encoder import Encoder, EncodeError, DecodeError
+from typing import Dict
+
+from .encoder import DecodeError, EncodeError, Encoder
+
 
 class Base2NEncoder(Encoder):
     """
@@ -12,47 +15,35 @@ class Base2NEncoder(Encoder):
     """
 
     params = {
-        'padding': {
-            'nargs': '?',
-            'const': '=',
-            'help': 'Specify the character used as padding'
+        "padding": {"nargs": "?", "const": "=", "help": "Specify the character used as padding"},
+        "no_padding": {"action": "store_true", "help": "Do not include a padding character"},
+        "alphabet": {
+            "type": str,
+            "default": None,
+            "help": "Custom alphabet to use for encoding (must have the same length as the base)",
         },
-        'no_padding': {
-            'action': 'store_true',
-            'help': 'Do not include a padding character'
-        },
-        'alphabet': {
-            'type': str,
-            'default': None,
-            'help': 'Custom alphabet to use for encoding (must have the same length as the base)'
-        }
     }
 
-    tests = {
-        'base': {
-            'params': '',
-            'roundtrip': False
-        }
-    }
+    tests = {"base": {"params": "", "roundtrip": False}}
 
     # Subclasses must define these
     alphabet: bytes = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"  # Default characters used for encoding (as bytes)
     bits_per_char: int = 6  # Number of bits each character represents
-    padding: str = '='  # Padding character
+    padding: str = "="  # Padding character
 
     # Dictionary of alternative alphabets (can be overridden by subclasses)
-    alphabets: dict = {}
+    alphabets: Dict[str, bytes] = {}
 
     @classmethod
-    def _get_alphabet(cls, alphabet_param: str = None) -> bytes:
+    def _get_alphabet(cls, alphabet_param: str = "") -> bytes:
         """Get the alphabet to use, either from parameter, named alphabet, or default"""
-        if alphabet_param is not None:
+        if alphabet_param:
             # Check if it's a named alphabet
             if alphabet_param in cls.alphabets:
                 return cls.alphabets[alphabet_param]
             # Otherwise treat it as a custom alphabet string
             try:
-                alphabet_bytes = alphabet_param.encode('ascii')
+                alphabet_bytes = alphabet_param.encode("ascii")
             except UnicodeEncodeError as e:
                 raise EncodeError(f"Alphabet must be ASCII: {e}") from e
             return alphabet_bytes
@@ -72,20 +63,22 @@ class Base2NEncoder(Encoder):
     def _validate_padding(cls, padding: str, alphabet: bytes) -> bytes:
         """Validate the padding character and return it as a byte"""
         try:
-            padding_byte = padding.encode('ascii')
+            padding_byte = padding.encode("ascii")
         except UnicodeEncodeError as e:
-            raise DecodeError(f'padding ({padding}) must be ASCII') from e
+            raise DecodeError(f"padding ({padding}) must be ASCII") from e
 
         if len(padding_byte) != 1:
-            raise DecodeError(f'padding ({padding}) must be a single character')
+            raise DecodeError(f"padding ({padding}) must be a single character")
 
         if padding_byte in alphabet:
-            raise DecodeError(f'padding ({padding}) can not be inside the alphabet')
+            raise DecodeError(f"padding ({padding}) can not be inside the alphabet")
 
         return padding_byte
 
     @classmethod
-    def encode(cls, text: bytes, padding: str = '', no_padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
+    def encode(
+        cls, text: bytes, padding: str = "", no_padding: bool = False, alphabet: str = "", **kwargs
+    ) -> bytes:
         """
         Encode bytes using power-of-two base encoding with bitwise operations
 
@@ -102,7 +95,7 @@ class Base2NEncoder(Encoder):
         cls._validate_alphabet(alphabet_bytes)
 
         if not text:
-            return b''
+            return b""
 
         result = bytearray()
         bit_buffer = 0
@@ -144,7 +137,9 @@ class Base2NEncoder(Encoder):
         return bytes(result)
 
     @classmethod
-    def decode(cls, text: bytes, padding: str = '', no_padding: bool = False, alphabet: str = None, **kwargs) -> bytes:
+    def decode(
+        cls, text: bytes, padding: str = "", no_padding: bool = False, alphabet: str = "", **kwargs
+    ) -> bytes:
         """
         Decode power-of-two base encoded bytes using bitwise operations
 
@@ -163,11 +158,11 @@ class Base2NEncoder(Encoder):
         # Remove padding characters
         if not no_padding:
             padding = padding if padding else cls.padding
-            padding_bytes = cls._validate_padding(padding, alphabet_bytes)   
+            padding_bytes = cls._validate_padding(padding, alphabet_bytes)
             text = text.rstrip(padding_bytes)
 
         if not text:
-            return b''
+            return b""
 
         # Create reverse lookup table
         char_to_index = {alphabet_bytes[i]: i for i in range(len(alphabet_bytes))}
@@ -178,7 +173,9 @@ class Base2NEncoder(Encoder):
 
         for byte in text:
             if byte not in char_to_index:
-                raise DecodeError(f"Invalid character '{chr(byte)}' (0x{byte:02x}) for {cls.__name__}")
+                raise DecodeError(
+                    f"Invalid character '{chr(byte)}' (0x{byte:02x}) for {cls.__name__}"
+                )
 
             index = char_to_index[byte]
 

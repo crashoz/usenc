@@ -2,10 +2,9 @@
 Unit tests for utils.py helper functions
 """
 
-import pytest
+import sys
 from pathlib import Path
 
-import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from usenc.utils import escape_for_char_class, transform_keywords
 
@@ -136,8 +135,10 @@ class TestEscapeForCharClass:
     def test_real_world_patterns(self):
         """Test realistic regex character class patterns."""
         # URL characters
-        assert escape_for_char_class("a-zA-Z0-9._~:/?#[]@!$&'()*+,;=") == \
-               "a\\-zA\\-Z0\\-9._~:/?#[\\]@!$&'()*+,;="
+        assert (
+            escape_for_char_class("a-zA-Z0-9._~:/?#[]@!$&'()*+,;=")
+            == "a\\-zA\\-Z0\\-9._~:/?#[\\]@!$&'()*+,;="
+        )
 
         # Common punctuation
         assert escape_for_char_class(".,;:!?-") == ".,;:!?\\-"
@@ -173,5 +174,4 @@ class TestTransformKeywords:
 
     def test_keywords_concatenated(self):
         """Test keywords directly concatenated without spaces."""
-        assert transform_keywords("allasciiutf8") == \
-               "\\s\\S\\x00-\\x7f\\u0080-\\U0010ffff"
+        assert transform_keywords("allasciiutf8") == "\\s\\S\\x00-\\x7f\\u0080-\\U0010ffff"

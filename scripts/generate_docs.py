@@ -45,9 +45,8 @@ def extract_docstring_parts(docstring: str) -> Tuple[str, str, List[str]]:
     state = "short"  # short, long, examples
 
     for line in cleaned_lines:
-        if not line:
-            if state == "short":
-                state = "long"
+        if not line and state == "short":
+            state = "long"
             continue
 
         # Check if we're entering examples section
@@ -57,7 +56,6 @@ def extract_docstring_parts(docstring: str) -> Tuple[str, str, List[str]]:
 
         if state == "short":
             short_desc = line
-            state = "long"
         elif state == "long":
             long_desc_lines.append(line)
         elif state == "examples":
@@ -139,7 +137,7 @@ def generate_encoder_markdown(encoder_name: str, encoder_class: Any) -> str:
                     output_str = parts[1].strip()
                     md.append(f"`{input_str}` | `{output_str}`")
 
-    return "\n".join(md)
+    return "\n".join(md) + "\n"
 
 
 def generate_encoder_list() -> str:

@@ -19,7 +19,7 @@ class HashEncoder(Encoder):
     """
 
     params = {
-        'hash_name': {
+        'algorithm': {
             'type': str,
             'default': None,
             'required': True,
@@ -33,36 +33,36 @@ class HashEncoder(Encoder):
 
     tests = {
         'base': {
-            'params': '--hash-name sha256',
+            'params': '--algorithm sha256',
             'roundtrip': False
         },
         'lowercase': {
-            'params': '--hash-name sha256 --lowercase',
+            'params': '--algorithm sha256 --lowercase',
             'roundtrip': False
         }
     }
 
-    # Subclasses can define this to avoid requiring hash_name parameter
-    hash_name: str = None
+    # Subclasses can define this to avoid requiring algorithm parameter
+    algorithm: str = None
 
     @classmethod
-    def encode(cls, text: bytes, hash_name: str = None, lowercase: bool = False, **kwargs) -> bytes:
+    def encode(cls, text: bytes, algorithm: str = None, lowercase: bool = False, **kwargs) -> bytes:
         """
         Compute hash of input bytes and return hex digest as bytes
 
         Args:
             text: Input bytes to hash
-            hash_name: Hash algorithm name (required if not defined in class)
+            algorithm: Hash algorithm name (required if not defined in class)
             lowercase: If True, output lowercase hex; otherwise uppercase
 
         Returns:
             Hex digest as bytes
         """
         # Use parameter if provided, otherwise fall back to class attribute
-        algorithm = hash_name if hash_name is not None else cls.hash_name
+        algorithm = algorithm if algorithm is not None else cls.algorithm
 
         if algorithm is None:
-            raise EncodeError(f"hash_name parameter is required")
+            raise EncodeError(f"algorithm parameter is required")
 
         try:
             hasher = hashlib.new(algorithm)

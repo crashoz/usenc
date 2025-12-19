@@ -12,16 +12,6 @@ other with their decimal or hexadecimal representation.
 ### OPTIONS
 
 
-#### --prefix
-<div class="option-desc">
-Prefix string to each encoded character
-</div>
-
-#### --suffix
-<div class="option-desc">
-Suffix string to each encoded character
-</div>
-
 #### --include
 <div class="option-desc">
 Characters that should be encoded (can contain 'all', 'utf8' or 'ascii')

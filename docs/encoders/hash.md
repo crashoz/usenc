@@ -13,7 +13,7 @@ your OpenSSL installation (`openssl list -digest-algorithms`)
 ### OPTIONS
 
 
-#### --hash-name
+#### --algorithm
 <div class="option-desc">
 Hash algorithm name (e.g., md5, sha256, sha512)
 </div>

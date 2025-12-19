@@ -1,10 +1,13 @@
 ### NAME
 
-`hex` - Hexadecimal string encoding
+`escape` - Generic escape encoder.
 
 ### DESCRIPTION
 
-Encodes each character with its hex 2-digits representation and an optional prefix/suffix
+Encodes each character with the `cls.encode_char` function and add a prefix and a suffix.
+Characters to be encoded are selected by the `character_class` or `regex` parameter, and are
+fine tuned by the `include` and `exclude` parameters.
+The decoder uses `decode_class` to match sequences to be decoded by the `cls.decode_char` function
 
 ### OPTIONS
 
@@ -38,12 +41,3 @@ Regex override for characters that should be encoded
 <div class="option-desc">
 Use lowercase hex digits
 </div>
-
-### EXAMPLES
-
-Sample  |   Encoded
---- | ---
-`hello world` | `68656C6C6F20776F726C64`
-`escape "me"` | `65736361706520226D6522`
-`café` | `636166C3A9`
-`http://example.org` | `687474703A2F2F6578616D706C652E6F7267`

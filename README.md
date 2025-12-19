@@ -33,6 +33,12 @@ pip install usenc
 ### CLI
 
 ```bash
+# Get help and parameters
+usenc --help
+usenc unicode --help
+```
+
+```bash
 # Encode a string
 echo "hello world" | usenc url
 # Output: hello%20world
@@ -41,8 +47,16 @@ echo "hello world" | usenc url
 echo "hello%20world" | usenc url -d
 # Output: hello world
 
-# From files
+# File input/output
 usenc url -i input.txt -o output.txt
+
+# More complex encoding
+echo "hello world" | usenc hex --prefix '${' --suffix '}' --lowercase
+# Output: ${68}${65}${6c}${6c}${6f}${20}${77}${6f}${72}${6c}${64}
+
+# Optional character selection
+echo "hello world" | usenc cstring --include e
+# Output: h\x65llo\x20world
 ```
 
 ### Python
@@ -77,6 +91,12 @@ print(decoded)  # hello world
 
 
 
+## Optional Encoding
+
+Some encoders provide the option to select which characters should be encoded (e.g. `url` or `cstring`). Those have a default setting that can be augmented with `--include some_chars` and `--exclude some_chars`. 
+
+Advanced users can specify directly `--regex match_chars` that will override these parameters.
+
 ## Global Parameters
 
 The bulk (`-b`or `--bulk`) parameter makes the encoder process the whole file instead of line by line. This mode can be useful for encoders like **base64** or **md5**.
@@ -91,8 +111,6 @@ echo héllo | usenc url --output-charset latin1
 echo h%E9llo | usenc url -d --input-charset latin1
 > héllo
 ```
-
-
 
 ## Development
 

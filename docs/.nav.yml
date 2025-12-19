@@ -4,6 +4,8 @@ nav:
     - getting-started/*
   - Encoders:
     - encoders/*
+  - Advanced:
+    - advanced/advanced.md
   - API: api/core.md
   - Contribute:
     - development/*

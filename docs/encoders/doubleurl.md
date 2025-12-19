@@ -1,6 +1,6 @@
 ### NAME
 
-`doubleurl` - Double URL encoding (percent encoding)
+`doubleurl` - Double URL encoding (RFC 3986 percent encoding)
 
 ### DESCRIPTION
 
@@ -35,4 +35,6 @@ Use lowercase hex digits
 Sample  |   Encoded
 --- | ---
 `hello world` | `hello%2520world`
-`url$param+` | `url%2524param%252B`
+`http://example.org` | `http%253A%252F%252Fexample.org`
+`index.php?key=value&other=1` | `index.php%253Fkey%253Dvalue%2526other%253D1`
+`<div>hello</div>` | `%253Cdiv%253Ehello%253C%252Fdiv%253E`

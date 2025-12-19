@@ -15,12 +15,17 @@ Alternative alphabets:
 
 #### --padding
 <div class="option-desc">
-Include padding characters (=) in output
+Specify the character used as padding
+</div>
+
+#### --no-padding
+<div class="option-desc">
+Do not include a padding character
 </div>
 
 #### --alphabet
 <div class="option-desc">
-Custom alphabet to use for encoding (must have correct length for the base)
+Custom alphabet to use for encoding (must have the same length as the base)
 </div>
 
 ### EXAMPLES

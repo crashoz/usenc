@@ -1,6 +1,6 @@
 ### NAME
 
-`url` - Standard URL encoding (percent encoding)
+`url` - Standard URL encoding (RFC 3986 percent encoding)
 
 ### DESCRIPTION
 
@@ -36,4 +36,6 @@ Use lowercase hex digits
 Sample  |   Encoded
 --- | ---
 `hello world` | `hello%20world`
-`url$param+` | `url%24param%2B`
+`http://example.org` | `http%3A%2F%2Fexample.org`
+`index.php?key=value&other=1` | `index.php%3Fkey%3Dvalue%26other%3D1`
+`<div>hello</div>` | `%3Cdiv%3Ehello%3C%2Fdiv%3E`

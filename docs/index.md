@@ -1,5 +1,13 @@
 # Universal String Encoder
 
+[![Tests](https://github.com/crashoz/usenc/workflows/Tests/badge.svg)](https://github.com/crashoz/usenc/actions)
+[![Documentation](https://github.com/crashoz/usenc/workflows/Deploy%20Documentation/badge.svg)](https://crashoz.github.io/usenc/)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+[![PyPI version](https://badge.fury.io/py/usenc.svg)](https://pypi.org/project/usenc/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/usenc.svg)](https://pypi.org/project/usenc/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
 A universal string encoder CLI tool and Python library for encoding/decoding strings in various formats.
 
 Check out the [official documentation](https://crashoz.github.io/usenc/)
@@ -35,7 +43,7 @@ pip install usenc
 ```bash
 # Get help and parameters
 usenc --help
-usenc unicode --help
+usenc <encoder> --help
 ```
 
 ```bash
@@ -65,7 +73,7 @@ echo "hello world" | usenc cstring --include e
 from usenc import encode, decode
 
 # Encode
-encoded = encode('hello world', encoder='url')
+encoded = encode(b'hello world', encoder='url')
 print(encoded)  # hello%20world
 
 # Decode

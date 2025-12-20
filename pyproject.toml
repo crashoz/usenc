@@ -7,7 +7,7 @@ packages = ["src/usenc"]
 
 [project]
 name = "usenc"
-version = "0.1.0"
+version = "1.0.0"
 description = "A Universal String Encoder"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -15,16 +15,31 @@ license = {text = "MIT"}
 authors = [
     {name = "Xavier 'crashoz' Launey", email = "xavier.launey@gmail.com"}
 ]
+maintainers = [
+    {name = "Xavier 'crashoz' Launey", email = "xavier.launey@gmail.com"}
+]
 keywords = ["string", "encoder", "encodings", "decoder"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Environment :: Console",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Internet",
+    "Typing :: Typed",
 ]
 
 # Dependencies
@@ -109,6 +124,8 @@ exclude_dirs = ["tests", "docs", "scripts"]
 skips = ["B101"]  # Skip assert_used (used in tests)
 
 [project.urls]
-Homepage = "https://github.com/crashoz/usenc"
-Documentation = "https://github.com/crashoz/usenc"
-Repository = "https://github.com/crashoz/usenc"
+"Homepage" = "https://crashoz.github.io/usenc/"
+"Documentation" = "https://crashoz.github.io/usenc/"
+"Repository" = "https://github.com/crashoz/usenc"
+"Bug Tracker" = "https://github.com/crashoz/usenc/issues"
+"Changelog" = "https://github.com/crashoz/usenc/blob/main/CHANGELOG.md"

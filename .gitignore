@@ -1,4 +1,5 @@
-__pycache__/
+
+# Compiled files
 *.py[cod]
 *$py.class
 *.so
@@ -6,9 +7,39 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+
+# Tests
+.coverage
+htmlcov/
+
+# Virtual Env
+venv/
+.venv
+.env
+
+# Caches
+__pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.coverage
-htmlcov/
-venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.whl
+*.tar.gz
+
+# Coverage
+coverage.json
+.coverage.*
+
+# Docs
+site/

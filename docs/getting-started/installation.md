@@ -33,6 +33,7 @@ pip install -e ".[dev]"
 ```
 
 This includes:
+
 - pytest - for running tests
 - pytest-cov - for test coverage
 
